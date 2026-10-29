@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use PQC-Corpus or this code, please cite it as below."
 type: software
-title: "PQC-Corpus: code to mine, filter and release a dataset of post-quantum cryptography development"
+title: "PQC-Corpus: A Dataset of Post-Quantum Cryptography Development Artifacts on GitHub"
 abstract: >-
   Code that builds PQC-Corpus, a dataset of the development history of 179 public
   GitHub repositories about post-quantum cryptography (PQC), collected on

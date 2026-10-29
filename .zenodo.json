@@ -1,0 +1,22 @@
+{
+  "title": "PQC-Corpus: code to mine, filter and release a dataset of post-quantum cryptography development",
+  "upload_type": "software",
+  "description": "<p>Code that builds PQC-Corpus, a dataset of the development history of 179 public GitHub repositories about post-quantum cryptography (PQC), collected on 21–24 September 2026. It mines commits with full patches, issues and pull requests with their discussions and reviews, and repository metadata; filters the commits (114,361 to 47,729) and issues (5,713 to 5,687) with fixed, scripted rules; and writes a checksummed release with Table I and Figures 3–5.</p><p>The dataset itself is on Hugging Face: <a href=\"https://huggingface.co/datasets/pqc-datasets/pqc-corpus\">pqc-datasets/pqc-corpus</a> (CC BY 4.0).</p>",
+  "creators": [
+    {"name": "Saha Dip, Souhardya", "affiliation": "Louisiana State University"},
+    {"name": "Fakorede, Moshood A.", "affiliation": "Louisiana State University"},
+    {"name": "Farooq, Umar", "affiliation": "Louisiana State University"}
+  ],
+  "version": "1.0.0",
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": ["post-quantum cryptography", "mining software repositories", "dataset", "GitHub", "git"],
+  "related_identifiers": [
+    {
+      "identifier": "https://huggingface.co/datasets/pqc-datasets/pqc-corpus",
+      "relation": "isSupplementTo",
+      "resource_type": "dataset",
+      "scheme": "url"
+    }
+  ]
+}

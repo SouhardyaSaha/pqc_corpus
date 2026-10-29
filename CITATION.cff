@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use PQC-Corpus or this code, please cite it as below."
+type: software
+title: "PQC-Corpus: code to mine, filter and release a dataset of post-quantum cryptography development"
+abstract: >-
+  Code that builds PQC-Corpus, a dataset of the development history of 179 public
+  GitHub repositories about post-quantum cryptography (PQC), collected on
+  21–24 September 2026. It mines commits with full patches, issues and pull
+  requests with their discussions and reviews, and repository metadata; filters
+  the commits (114,361 to 47,729) and issues (5,713 to 5,687) with fixed, scripted
+  rules; and writes a checksummed release with Table I and Figures 3–5.
+authors:
+  - given-names: Souhardya
+    family-names: Saha Dip
+    affiliation: Louisiana State University
+  - given-names: Moshood A.
+    family-names: Fakorede
+    affiliation: Louisiana State University
+  - given-names: Umar
+    family-names: Farooq
+    affiliation: Louisiana State University
+version: 1.0.0
+date-released: 2026-10-29
+license: MIT
+repository-code: "https://github.com/SouhardyaSaha/pqc_corpus"
+keywords:
+  - post-quantum cryptography
+  - mining software repositories
+  - dataset
+  - GitHub
+  - git
+references:
+  - type: data
+    title: PQC-Corpus
+    url: "https://huggingface.co/datasets/pqc-datasets/pqc-corpus"
+    license: CC-BY-4.0
+    authors:
+      - name: The PQC-Corpus authors

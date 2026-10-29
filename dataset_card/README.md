@@ -32,8 +32,7 @@ configs:
 PQC-Corpus is the development history of 179 public GitHub repositories about
 post-quantum cryptography (PQC): their commits with full patches, their issues and
 pull requests with discussions and reviews, and the repositories themselves. It
-was collected on 21–24 September 2026, for research on how software projects adopt,
-implement and maintain PQC.
+was collected on 21–24 September 2026.
 
 | File | One line is | Rows | Size |
 |---|---|---:|---:|
@@ -80,8 +79,8 @@ scripted rules, with every removal listed in `commits_filtered_report/` and
 ```python
 from datasets import load_dataset
 
-issues = load_dataset("pqc-corpus/pqc-corpus", "issues_filtered", split="train")
-commits = load_dataset("pqc-corpus/pqc-corpus", "commits_filtered", split="train", streaming=True)
+issues = load_dataset("pqc-datasets/pqc-corpus", "issues_filtered", split="train")
+commits = load_dataset("pqc-datasets/pqc-corpus", "commits_filtered", split="train", streaming=True)
 ```
 
 Join on `repo` together with `sha` (commits) or `number` (issues, pull requests):

@@ -1,11 +1,22 @@
-/** Command-line options, frozen manifest, and tier plan for one collector run. */
+/** Command-line options, frozen manifest, and corpus plan for one collector run. */
 import { join, resolve } from "@std/path";
 
-export type Tier = "A" | "B" | "unrated";
+/**
+ * File names and keys inside a run directory. They are the format the frozen run was
+ * collected with, which predates the word "corpus", so they keep the word "tier".
+ */
+export const RUN_FILES = {
+	policy: "tier_policy.json",
+	plans: "tier_plans",
+	searchCache: "tier_search_cache",
+} as const;
 
-export type TierPlan = {
+/** A repository's corpus as a plan stores it; "unrated" is corpus C (no PRs or issues). */
+export type PlanCorpus = "A" | "B" | "unrated";
+
+export type CorpusPlan = {
 	repo: string;
-	tier: Tier;
+	tier: PlanCorpus;
 	selected_pr_numbers: number[];
 	selected_issue_numbers: number[];
 	policy_sha256: string;
@@ -13,6 +24,7 @@ export type TierPlan = {
 
 export type Manifest = {
 	repositories: Array<{ repo: string }>;
+	/** Present in a run with corpus plans; holds the frozen policy's SHA-256. */
 	tiering?: { policy_sha256: string };
 };
 
@@ -51,29 +63,29 @@ export async function loadManifest(run: string, onlyRepo?: string): Promise<Mani
 }
 
 /**
- * Load the frozen tier plan for a tiered run. Raw runs have no plan. A tiered
- * run is collected one repository at a time by the tier pipeline.
+ * Load the frozen corpus plan of one repository. Raw runs have no plans. A run with
+ * plans is collected one repository at a time by the Python pipeline.
  */
-export async function loadTierPlan(
+export async function loadCorpusPlan(
 	run: string,
 	manifest: Manifest,
 	onlyRepo?: string,
-): Promise<TierPlan | undefined> {
+): Promise<CorpusPlan | undefined> {
 	if (!manifest.tiering) return undefined;
 	if (!onlyRepo) {
 		throw new Error(
-			"Tiered collection requires --only-repo; use tier_pipeline.py for the complete corpus",
+			"A run with corpus plans is collected per repository (--only-repo); use `python -m pqc_corpus`",
 		);
 	}
 	const plan = JSON.parse(
 		await Deno.readTextFile(
-			join(run, "tier_plans", onlyRepo.toLowerCase().replace("/", "__") + ".json"),
+			join(run, RUN_FILES.plans, onlyRepo.toLowerCase().replace("/", "__") + ".json"),
 		),
-	) as TierPlan | undefined;
+	) as CorpusPlan | undefined;
 	if (
 		!plan || plan.policy_sha256 !== manifest.tiering.policy_sha256 ||
 		plan.repo.toLowerCase() !== onlyRepo.toLowerCase() ||
 		!["A", "B", "unrated"].includes(plan.tier)
-	) throw new Error("Invalid or mismatched tier plan");
+	) throw new Error("Invalid or mismatched corpus plan");
 	return plan;
 }

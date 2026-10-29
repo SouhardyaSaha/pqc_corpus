@@ -1,5 +1,5 @@
 /**
- * Production GitHub search access for tier classification. Importing this
+ * Production GitHub search access for corpus classification. Importing this
  * module loads the configured tokens.
  */
 import { paceGraphql, paceGraphqlSearch, withRetry } from "../lib/github.ts";

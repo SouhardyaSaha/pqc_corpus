@@ -1,10 +1,10 @@
 /**
  * PR/issue inventory and discussion threads.
  *
- * Raw runs page through repository-wide list endpoints. Tiered runs fetch only
- * the items frozen in the tier plan, and every thread of each selected item.
+ * Raw runs page through repository-wide list endpoints. Runs with corpus plans
+ * fetch only the items frozen in the plan, and every thread of each selected item.
  */
-import type { TierPlan } from "./config.ts";
+import type { CorpusPlan } from "./config.ts";
 import { collectListing } from "./listing.ts";
 import type { CollectorSession, Repository } from "./session.ts";
 import type { MiningStore } from "./store.ts";
@@ -56,11 +56,11 @@ export async function collectRepositoryDiscussions(
 	);
 }
 
-/** Tiered run: fetch each selected PR and issue that is not already saved. */
+/** Run with corpus plans: fetch each selected PR and issue that is not already saved. */
 export async function collectSelectedInventory(
 	session: CollectorSession,
 	repo: Repository,
-	plan: TierPlan,
+	plan: CorpusPlan,
 ): Promise<void> {
 	const id = String(repo.id);
 	const prefix = `/repos/${repo.full_name}`;
@@ -93,13 +93,13 @@ export async function collectSelectedInventory(
 }
 
 /**
- * Tiered run: fetch every comment thread of each selected item. Individual
+ * Run with corpus plans: fetch every comment thread of each selected item. Individual
  * threads are refetched instead of trusting repository-wide completion flags.
  */
 export async function collectSelectedDiscussions(
 	session: CollectorSession,
 	repo: Repository,
-	plan: TierPlan,
+	plan: CorpusPlan,
 ): Promise<void> {
 	const prefix = `/repos/${repo.full_name}`;
 	for (const number of [...plan.selected_pr_numbers, ...plan.selected_issue_numbers]) {
@@ -124,8 +124,8 @@ export async function collectSelectedDiscussions(
 	}
 }
 
-/** Tier A selects every saved PR and issue; other tiers use the frozen selection. */
-export function discussionPlan(store: MiningStore, repoId: string, plan: TierPlan): TierPlan {
+/** Corpus A selects every saved PR and issue; the other corpora use the frozen selection. */
+export function discussionPlan(store: MiningStore, repoId: string, plan: CorpusPlan): CorpusPlan {
 	if (plan.tier !== "A") return plan;
 	return {
 		...plan,

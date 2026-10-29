@@ -1,6 +1,6 @@
 /**
  * Collector entry point: resumable collection of a full raw run, or of one
- * repository's frozen tier selection.
+ * repository's frozen corpus selection.
  *
  * Exit codes: 0 complete, 2 complete with recorded gaps, 130 paused, 1 failed.
  */
@@ -8,7 +8,7 @@ import { join } from "@std/path";
 import { safeErrorMessage } from "../lib/errors.ts";
 import { installTimestampedConsole } from "../lib/logging.ts";
 import { listenForStop } from "../lib/signals.ts";
-import { loadManifest, loadTierPlan, parseCollectorArgs } from "./config.ts";
+import { loadCorpusPlan, loadManifest, parseCollectorArgs } from "./config.ts";
 import { createGitHubTransport } from "./github_transport.ts";
 import { collectPhases } from "./phases.ts";
 import { CollectorSession, Paused } from "./session.ts";
@@ -19,7 +19,7 @@ export async function runCollector(): Promise<void> {
 	const stop = listenForStop();
 	const options = parseCollectorArgs(Deno.args);
 	const manifest = await loadManifest(options.run, options.onlyRepo);
-	const tierPlan = await loadTierPlan(options.run, manifest, options.onlyRepo);
+	const corpusPlan = await loadCorpusPlan(options.run, manifest, options.onlyRepo);
 
 	const store = new MiningStore(join(options.run, "github.sqlite"));
 	const transport = createGitHubTransport();
@@ -29,10 +29,11 @@ export async function runCollector(): Promise<void> {
 		started_at: new Date().toISOString(),
 		tokens: transport.tokenCount(),
 		pr_batch_size: options.batchSize,
-		selection: tierPlan ? `tier_${tierPlan.tier}` : "raw_all",
+		// The status file keeps the frozen run's selection names (tier_A, ...).
+		selection: corpusPlan ? `tier_${corpusPlan.tier}` : "raw_all",
 	});
 	try {
-		Deno.exitCode = await collectPhases(session, manifest, tierPlan, options.batchSize);
+		Deno.exitCode = await collectPhases(session, manifest, corpusPlan, options.batchSize);
 	} catch (error) {
 		await session.report({
 			status: error instanceof Paused ? error.message : "failed",

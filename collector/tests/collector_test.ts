@@ -1,6 +1,6 @@
 /** Collector phases against canned GitHub responses; no network or tokens. */
 import { join } from "@std/path";
-import type { TierPlan } from "../api/config.ts";
+import type { CorpusPlan } from "../api/config.ts";
 import { collectPhases } from "../api/phases.ts";
 import { CollectorSession } from "../api/session.ts";
 import { MiningStore } from "../api/store.ts";
@@ -14,12 +14,12 @@ function assertEquals(actual: unknown, expected: unknown, label = ""): void {
 
 const MANIFEST = { repositories: [{ repo: "fixture/project" }] };
 
-async function collect(tierPlan?: TierPlan) {
+async function collect(corpusPlan?: CorpusPlan) {
 	const run = await Deno.makeTempDir();
 	const store = new MiningStore(join(run, "github.sqlite"));
 	const github = new FakeGitHub();
 	const session = new CollectorSession(run, store, github, { requested: false }, {}, 0);
-	const code = await collectPhases(session, MANIFEST, tierPlan, 10);
+	const code = await collectPhases(session, MANIFEST, corpusPlan, 10);
 	const counts = Object.fromEntries(
 		store.recordCounts().map((row) => [String(row.kind), Number(row.records)]),
 	);
@@ -49,8 +49,8 @@ Deno.test("a truncated commit list is recorded as a gap, never marked complete",
 	], "failures");
 });
 
-Deno.test("Tier B fetches only selected items and their threads", async () => {
-	const plan: TierPlan = {
+Deno.test("corpus B fetches only selected items and their threads", async () => {
+	const plan: CorpusPlan = {
 		repo: "fixture/project",
 		tier: "B",
 		selected_pr_numbers: [2],

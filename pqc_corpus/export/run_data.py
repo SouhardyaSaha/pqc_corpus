@@ -7,8 +7,8 @@ from typing import Any, Iterator
 from ..collection.plans import load_plan
 from ..common import connect_read_only, lowercase_slug, read_json
 
-# The collector's tier plans name the corpus of each repository; `unrated` (no pull requests or
-# issues) is corpus C in the dataset.
+# A plan stores its repository's corpus under `tier`; `unrated` (no pull requests or issues) is
+# corpus C in the dataset.
 CORPUS_NAMES = {'A': 'A', 'B': 'B', 'unrated': 'C'}
 
 

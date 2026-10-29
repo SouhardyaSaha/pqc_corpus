@@ -3,7 +3,7 @@
  * PR details. Each phase gets up to three passes; failures stay recorded.
  */
 import { safeErrorMessage } from "../lib/errors.ts";
-import type { Manifest, TierPlan } from "./config.ts";
+import type { CorpusPlan, Manifest } from "./config.ts";
 import {
 	collectFullInventory,
 	collectRepositoryDiscussions,
@@ -23,7 +23,7 @@ const PASSES_PER_PHASE = 3;
 export async function collectPhases(
 	session: CollectorSession,
 	manifest: Manifest,
-	tierPlan: TierPlan | undefined,
+	corpusPlan: CorpusPlan | undefined,
 	batchSize: number,
 ): Promise<number> {
 	console.log(
@@ -47,7 +47,7 @@ export async function collectPhases(
 						attempt: attempt + 1,
 					});
 					const repo = saved ?? await fetchRepository(session, requested);
-					await collectPhase(session, phase, requested, repo, tierPlan, batchSize);
+					await collectPhase(session, phase, requested, repo, corpusPlan, batchSize);
 					session.store.page(String(repo.id), `phase:${phase}`, [], { cursor: null, done: true });
 					session.store.clearFailure(requested, phase);
 				} catch (error) {
@@ -75,18 +75,18 @@ async function collectPhase(
 	phase: Phase,
 	requested: string,
 	repo: Repository,
-	tierPlan: TierPlan | undefined,
+	corpusPlan: CorpusPlan | undefined,
 	batchSize: number,
 ): Promise<void> {
 	if (phase === "inventory") {
-		if (tierPlan && tierPlan.tier !== "A") {
-			await collectSelectedInventory(session, repo, tierPlan);
+		if (corpusPlan && corpusPlan.tier !== "A") {
+			await collectSelectedInventory(session, repo, corpusPlan);
 		} else {
 			await collectFullInventory(session, repo);
 		}
 	} else if (phase === "discussions") {
-		if (tierPlan) {
-			const plan = discussionPlan(session.store, String(repo.id), tierPlan);
+		if (corpusPlan) {
+			const plan = discussionPlan(session.store, String(repo.id), corpusPlan);
 			await collectSelectedDiscussions(session, repo, plan);
 		} else {
 			await collectRepositoryDiscussions(session, repo);

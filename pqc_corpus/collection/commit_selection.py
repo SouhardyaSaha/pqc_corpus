@@ -1,6 +1,6 @@
-"""Select one repository's commit metadata according to its tier.
+"""Select one repository's commit metadata according to its corpus.
 
-Tier A and unrated repositories keep every commit. Tier B keeps the union of
+Corpora A and C keep every commit. Corpus B keeps the union of
 commits linked to selected PRs and commits whose message contains a policy term,
 recording the reason for each selected commit.
 """
@@ -14,7 +14,7 @@ from typing import Any
 
 from ..common import connect_read_only, lowercase_slug, now, read_json, write_json_atomic
 from .linked_commits import linked_metadata
-from .plans import load_plan
+from .plans import POLICY_FILE, load_plan
 
 SCHEMA = '''CREATE TABLE IF NOT EXISTS commits(repo TEXT NOT NULL,sha TEXT NOT NULL,data TEXT NOT NULL,PRIMARY KEY(repo,sha));
       CREATE TABLE IF NOT EXISTS repositories(repo TEXT PRIMARY KEY,status TEXT NOT NULL,data TEXT NOT NULL);
@@ -31,11 +31,15 @@ def message_pattern(terms: list[str]) -> re.Pattern[str]:
     return re.compile(r'(?<![A-Za-z0-9])(?:' + alternatives + r')(?![A-Za-z0-9])', re.I)
 
 
-def selection_reason(tier: str, sha: str, message: str, linked: set[str],
+def selection_reason(corpus: str, sha: str, message: str, linked: set[str],
                      pattern: re.Pattern[str]) -> str:
-    """Why a commit is selected; an empty string means it is not."""
-    if tier != 'B':
-        return 'all_tier_' + tier
+    """Why a commit is selected; an empty string means it is not.
+
+    `corpus` is the plan's value (`unrated` for C); the reasons keep the frozen run's
+    names (`all_tier_A`, ...).
+    """
+    if corpus != 'B':
+        return 'all_tier_' + corpus
     reasons = []
     if sha in linked:
         reasons.append('selected_pr')
@@ -72,7 +76,7 @@ def recover_linked(out: sqlite3.Connection, run: Path, repo: str,
 def select_git(run: Path, repo: str, source_path: Path) -> None:
     """Write the repository's selected commits into the run's `git.sqlite`."""
     plan = load_plan(run, repo)
-    pattern = message_pattern(read_json(run / 'tier_policy.json')['terms'])
+    pattern = message_pattern(read_json(run / POLICY_FILE)['terms'])
     source = connect_read_only(source_path)
     available = source.execute('SELECT repo,status FROM repositories WHERE lower(repo)=?',
                                (repo.lower(),)).fetchone()
@@ -80,13 +84,14 @@ def select_git(run: Path, repo: str, source_path: Path) -> None:
         raise ValueError(f'Git source incomplete: {repo}')
     api = connect_read_only(run / 'github.sqlite')
     linked = linked_pr_commits(api, plan['repo_id'])
+    corpus = plan['tier']
     out = sqlite3.connect(run / 'git.sqlite')
     out.executescript(SCHEMA)
     scanned = 0
     for _, sha, data in source.execute('SELECT * FROM commits WHERE repo=?', (available[0],)):
         scanned += 1
-        message = json.loads(data).get('message', '') if plan['tier'] == 'B' else ''
-        reason = selection_reason(plan['tier'], sha, message, linked, pattern)
+        message = json.loads(data).get('message', '') if corpus == 'B' else ''
+        reason = selection_reason(corpus, sha, message, linked, pattern)
         if reason:
             save_commit(out, repo, sha, data, reason)
     found = {sha for sha, in out.execute('SELECT sha FROM commits WHERE repo=?', (repo,))}
@@ -96,7 +101,7 @@ def select_git(run: Path, repo: str, source_path: Path) -> None:
         (repo.lower(),)).fetchone()[0]
     selected = out.execute('SELECT count(*) FROM commits WHERE repo=?', (repo,)).fetchone()[0]
     result: dict[str, Any] = {
-        'at': now(), 'source': str(source_path), 'tier': plan['tier'], 'scanned': scanned,
+        'at': now(), 'source': str(source_path), 'tier': corpus, 'scanned': scanned,
         'selected': selected, 'linked_shas_missing_metadata': missing,
         'linked_metadata_errors': recovery_errors, 'pr_detail_gaps': detail_gaps,
     }

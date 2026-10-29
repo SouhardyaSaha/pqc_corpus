@@ -1,10 +1,10 @@
-/** Canned GitHub responses for offline collector and tier-search tests. */
+/** Canned GitHub responses for offline collector and corpus-search tests. */
 import type { GitHubTransport, RestResponse } from "../api/session.ts";
 import type {
 	RepositoryMetadata,
 	SearchPage,
 	SearchTransport,
-} from "../tiering/search_transport.ts";
+} from "../search/search_transport.ts";
 
 const API = "https://api.github.com";
 export const REPO = { id: 101, full_name: "fixture/project", has_issues: true };

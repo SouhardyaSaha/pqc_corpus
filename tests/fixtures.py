@@ -5,6 +5,7 @@ from pathlib import Path
 import sqlite3
 import subprocess
 
+from pqc_corpus.collection.plans import PLAN_DIRECTORY
 from pqc_corpus.common import write_json_atomic
 from pqc_corpus.export.author_key import AuthorKeys, create_secret
 
@@ -68,16 +69,16 @@ def git_payload(mirror: Path, sha: str) -> dict:
             'collected_at': '2026-09-21T00:00:00+00:00'}
 
 
-def make_run(root: Path, tier: str = 'A') -> tuple[Path, dict[str, str]]:
-    """A finished run: manifest, tier plan, mirror, git.sqlite and github.sqlite."""
+def make_run(root: Path, corpus: str = 'A') -> tuple[Path, dict[str, str]]:
+    """A finished run: manifest, corpus plan, mirror, git.sqlite and github.sqlite."""
     source, shas = make_source(root)
     run = root / 'run'
     mirror = run / 'mirrors' / 'fixture__project.git'
     mirror.parent.mkdir(parents=True)
     subprocess.run(['git', 'clone', '--mirror', str(source), str(mirror)], check=True, capture_output=True)
     write_json_atomic(run / 'manifest.json', {'repositories': [{'repo': REPO}], 'tiering': {'policy_sha256': 'p'}})
-    write_json_atomic(run / 'tier_plans' / 'fixture__project.json',
-                      {'repo': REPO, 'tier': tier, 'policy_sha256': 'p',
+    write_json_atomic(run / PLAN_DIRECTORY / 'fixture__project.json',
+                      {'repo': REPO, 'tier': corpus, 'policy_sha256': 'p',
                        'metadata': {'pullRequests': {'totalCount': 4}, 'issues': {'totalCount': 3}}})
     write_json_atomic(run / 'git_selection' / 'fixture__project.json', {'scanned': 5, 'selected': 5})
     db = sqlite3.connect(run / 'git.sqlite')

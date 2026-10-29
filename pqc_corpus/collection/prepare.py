@@ -4,7 +4,7 @@ The repository list and the policy (search terms and cutoff) come from `config/`
 Each is copied into the run once; a run with a manifest is never prepared again,
 so every later stage reads the same frozen inputs. Inside the run the policy is
 `tier_policy.json` and the per-repository corpus decisions are `tier_plans/`, the
-names the collector uses. The policy file's SHA-256 is recorded in the manifest,
+frozen run's names (see `plans`). The policy file's SHA-256 is recorded in the manifest,
 and the corpus search refuses plans made under a different policy.
 """
 
@@ -14,8 +14,9 @@ from typing import Any
 
 from ..common import now, read_json, write_json_atomic
 from ..paths import CONFIG_DIRECTORY
+from .plans import PLAN_DIRECTORY, POLICY_FILE, SEARCH_CACHE_DIRECTORY
 
-RUN_DIRECTORIES = ('tier_plans', 'tier_search_cache', 'mirrors', 'recovery_mirrors', 'logs', 'git_sources')
+RUN_DIRECTORIES = (PLAN_DIRECTORY, SEARCH_CACHE_DIRECTORY, 'mirrors', 'recovery_mirrors', 'logs', 'git_sources')
 
 
 def is_prepared(run: Path) -> bool:
@@ -23,7 +24,7 @@ def is_prepared(run: Path) -> bool:
 
 
 def prepare(run: Path, config: Path = CONFIG_DIRECTORY) -> None:
-    """Write `tier_policy.json` and `manifest.json` into a new run directory."""
+    """Write the policy and `manifest.json` into a new run directory."""
     if is_prepared(run):
         raise ValueError(f'{run} is already prepared; its frozen inputs are not replaced')
     repositories: list[dict[str, Any]] = read_json(config / 'repositories.json')['repositories']
@@ -32,8 +33,8 @@ def prepare(run: Path, config: Path = CONFIG_DIRECTORY) -> None:
         raise ValueError('config/repositories.json lists a repository twice')
     policy = {**read_json(config / 'corpus_policy.json'), 'created_at': now()}
     run.mkdir(parents=True, exist_ok=True)
-    write_json_atomic(run / 'tier_policy.json', policy)
-    policy_hash = hashlib.sha256((run / 'tier_policy.json').read_bytes()).hexdigest()
+    write_json_atomic(run / POLICY_FILE, policy)
+    policy_hash = hashlib.sha256((run / POLICY_FILE).read_bytes()).hexdigest()
     write_json_atomic(run / 'manifest.json', {
         'schema_version': 2,
         'created_at': now(),

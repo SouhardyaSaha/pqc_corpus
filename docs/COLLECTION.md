@@ -20,7 +20,7 @@ policy's SHA-256 is recorded, and every corpus plan must match it.
 
 ## Stages
 
-1. **Corpus search** (`collector/tier_search.ts`). GitHub search counts the repository's
+1. **Corpus search** (`collector/corpus_search.ts`). GitHub search counts the repository's
    pull requests and issues that contain a term in their title, body or comments,
    six terms per query, merging the results. Its score is that count divided by all
    of its pull requests and issues.
@@ -74,6 +74,10 @@ indent heuristic and complete binary patches.
 | `git.sqlite` | the selected commits and why each was selected |
 | `eligibility.sqlite` | the three eligibility observations per commit |
 | `pipeline_status.json`, `pipeline_repositories.json`, `logs/` | progress and per-repository logs |
+
+Names inside the run directory keep the word "tier" of the frozen run's format, which
+predates "corpus": `tier_policy.json`, `tier_plans/`, a plan's `tier` key, and
+selection reasons such as `all_tier_A`. The code and the dataset say corpus.
 
 The pipeline holds `pipeline.lock`, so two collections never run on one directory. To
 pause, send SIGTERM; it is forwarded to the running worker, which saves its

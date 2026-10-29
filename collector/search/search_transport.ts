@@ -1,4 +1,4 @@
-/** GitHub search access needed for tier classification; tests provide fakes. */
+/** GitHub search access needed for corpus classification; tests provide fakes. */
 
 export type SearchPage = {
 	issueCount: number;

@@ -72,7 +72,7 @@ Deno.test("one failing PR is isolated without dropping successful neighbors or a
 	const result = await fetchDetailBatch([request(1), request(2), request(3)], ({ query }) => {
 		calls++;
 		if (query.includes("pr_2:")) throw new Error("PR unavailable");
-		const repository: Record<string, {}> = {};
+		const repository: Record<string, Record<string, never>> = {};
 		for (const number of [1, 3]) {
 			if (query.includes(`pr_${number}:`)) repository[`pr_${number}`] = {};
 		}

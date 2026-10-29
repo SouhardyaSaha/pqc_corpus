@@ -1,6 +1,6 @@
 """Persistent, resumable collection of a prepared run.
 
-For each repository: corpus search (A, B or C; stored as tier plans) → selected
+For each repository: corpus search (A, B or C; stored as corpus plans) → selected
 GitHub API collection → full Git source → recovery of pull-request commit lists
 GitHub cut short → commit selection. Exit codes: 0
 complete, 2 complete with unresolved repositories, 130 paused. Rerunning skips
@@ -71,7 +71,7 @@ def is_complete(run: Path) -> bool:
                for entry in read_json(run / 'manifest.json')['repositories'])
 
 
-class TierPipeline:
+class CorpusPipeline:
     def __init__(self, run: Path, stop: StopController) -> None:
         self.run = run
         self.stop = stop
@@ -130,11 +130,12 @@ class TierPipeline:
     def process(self, repo: str, index: int, attempt: int) -> None:
         """Run every stage for one repository; record failures and move on."""
         try:
+            # Stage names and state keys keep the frozen run's names (tier_search, tier).
             self.report(status='running', stage='tier_search', repo=repo,
                         repository_index=index + 1, attempt=attempt)
-            self.search_tier(repo)
-            plan = load_plan(self.run, repo)
-            self.report(stage='collect_selected_api', tier=plan['tier'])
+            self.search_corpus(repo)
+            corpus = load_plan(self.run, repo)['tier']
+            self.report(stage='collect_selected_api', tier=corpus)
             self.collect_api(repo)
             source = self.git_source(repo)
             self.recover_commit_lists(repo)
@@ -145,8 +146,8 @@ class TierPipeline:
                         and not git_result['linked_shas_missing_metadata']
                         and not git_result['pr_detail_gaps'])
             self.save_state(repo, status='completed' if complete else 'completed_with_gaps',
-                            tier=plan['tier'])
-            print(f'[{now()}] {repo}: {self.states[repo]["status"]}, corpus {plan["tier"]}',
+                            tier=corpus)
+            print(f'[{now()}] {repo}: {self.states[repo]["status"]}, corpus {corpus}',
                   flush=True)
         except InterruptedError:
             raise
@@ -157,13 +158,13 @@ class TierPipeline:
     def log_path(self, repo: str, kind: str) -> Path:
         return self.run / 'logs' / f'{lowercase_slug(repo)}.{kind}.log'
 
-    def search_tier(self, repo: str) -> None:
+    def search_corpus(self, repo: str) -> None:
         code = self.command(
-            [*DENO, 'collector/tier_search.ts', f'--run-dir={self.run}', f'--repo={repo}'],
+            [*DENO, 'collector/corpus_search.ts', f'--run-dir={self.run}', f'--repo={repo}'],
             self.log_path(repo, 'search'))
         if code:
             raise RuntimeError(
-                f'Tier search exited {code}; inspect logs/{lowercase_slug(repo)}.search.log')
+                f'Corpus search exited {code}; inspect logs/{lowercase_slug(repo)}.search.log')
 
     def collect_api(self, repo: str) -> None:
         code = self.command(
@@ -228,4 +229,4 @@ def collect(run: Path) -> int:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         stop = StopController()
         stop.install()
-        return TierPipeline(run, stop).run_all()
+        return CorpusPipeline(run, stop).run_all()

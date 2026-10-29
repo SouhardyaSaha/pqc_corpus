@@ -1,15 +1,16 @@
 /**
- * Tier classification of one repository: score it from GitHub search, assign
- * its tier, and freeze the selected PR/issue numbers in a tier plan.
+ * Corpus classification of one repository: score it from GitHub search, assign
+ * its corpus, and freeze the selected PR/issue numbers in a corpus plan.
  */
 import { join, resolve } from "@std/path";
+import { RUN_FILES } from "../api/config.ts";
 import { readJsonIfExists, writeJsonAtomic } from "../lib/files.ts";
 import type { RepositoryMetadata, SearchTransport } from "./search_transport.ts";
 import { KeywordMatcher } from "./matching.ts";
-import { assignTier } from "./policy.ts";
+import { assignCorpus } from "./policy.ts";
 import { CachedSearch } from "./search_cache.ts";
 
-export type TierSearchTarget = {
+export type CorpusSearchTarget = {
 	run: string;
 	repo: string;
 	terms: string[];
@@ -28,11 +29,11 @@ function requiredArg(args: string[], name: string): string {
 }
 
 /** Resolve the frozen manifest, policy, and per-repository output locations. */
-export async function loadTarget(args: string[]): Promise<TierSearchTarget> {
+export async function loadTarget(args: string[]): Promise<CorpusSearchTarget> {
 	const run = resolve(requiredArg(args, "run-dir"));
 	const repo = requiredArg(args, "repo");
 	const manifest = JSON.parse(await Deno.readTextFile(join(run, "manifest.json")));
-	const policy = JSON.parse(await Deno.readTextFile(join(run, "tier_policy.json")));
+	const policy = JSON.parse(await Deno.readTextFile(join(run, RUN_FILES.policy)));
 	if (!manifest.repositories.some((x: { repo: string }) => x.repo === repo)) {
 		throw new Error("Repository outside frozen manifest");
 	}
@@ -43,13 +44,13 @@ export async function loadTarget(args: string[]): Promise<TierSearchTarget> {
 		terms: policy.terms,
 		cutoff: policy.cutoff,
 		policySha256: manifest.tiering.policy_sha256,
-		planPath: join(run, "tier_plans", slug + ".json"),
-		cacheDir: join(run, "tier_search_cache", slug),
+		planPath: join(run, RUN_FILES.plans, slug + ".json"),
+		cacheDir: join(run, RUN_FILES.searchCache, slug),
 	};
 }
 
 async function cachedMetadata(
-	target: TierSearchTarget,
+	target: CorpusSearchTarget,
 	transport: SearchTransport,
 ): Promise<CachedMetadata> {
 	const metaPath = join(target.cacheDir, "metadata.json");
@@ -64,19 +65,19 @@ async function cachedMetadata(
 }
 
 /**
- * Score the repository on any-text matches, assign its tier, and, for Tier B,
+ * Score the repository on any-text matches, assign its corpus, and, for corpus B,
  * select the items whose title or body matches. An existing plan is reused.
  */
 export async function classifyRepository(
-	target: TierSearchTarget,
+	target: CorpusSearchTarget,
 	transport: SearchTransport,
 	check: () => void,
 	searchGapMs?: number,
 ): Promise<void> {
 	const existing = await readJsonIfExists<{ policy_sha256: string; tier: string }>(target.planPath);
 	if (existing) {
-		if (existing.policy_sha256 !== target.policySha256) throw new Error("Tier policy changed");
-		console.log(`Reusing tier ${existing.tier}: ${target.repo}`);
+		if (existing.policy_sha256 !== target.policySha256) throw new Error("Corpus policy changed");
+		console.log(`Reusing corpus ${existing.tier}: ${target.repo}`);
 		return;
 	}
 	const meta = await cachedMetadata(target, transport);
@@ -86,15 +87,15 @@ export async function classifyRepository(
 	const anyPrs = denominator ? await matcher.allMatches("pr", "any") : [];
 	const anyIssues = denominator ? await matcher.allMatches("issue", "any") : [];
 	const ratio = denominator ? (anyPrs.length + anyIssues.length) / denominator : null;
-	const tier = assignTier(anyPrs.length + anyIssues.length, denominator, target.cutoff);
-	const selectedPrs = tier === "B" ? await matcher.allMatches("pr", "title_body") : [];
-	const selectedIssues = tier === "B" ? await matcher.allMatches("issue", "title_body") : [];
-	await Deno.mkdir(join(target.run, "tier_plans"), { recursive: true });
+	const corpus = assignCorpus(anyPrs.length + anyIssues.length, denominator, target.cutoff);
+	const selectedPrs = corpus === "B" ? await matcher.allMatches("pr", "title_body") : [];
+	const selectedIssues = corpus === "B" ? await matcher.allMatches("issue", "title_body") : [];
+	await Deno.mkdir(join(target.run, RUN_FILES.plans), { recursive: true });
 	await writeJsonAtomic(target.planPath, {
 		repo: target.repo,
 		canonical_repo: meta.nameWithOwner,
 		repo_id: String(meta.databaseId),
-		tier,
+		tier: corpus,
 		ratio,
 		denominator,
 		matched_prs: anyPrs.length,
@@ -103,14 +104,14 @@ export async function classifyRepository(
 		any_issue_numbers: anyIssues,
 		selected_pr_numbers: selectedPrs,
 		selected_issue_numbers: selectedIssues,
-		selection: tier === "B" ? "github_search_title_body" : "all",
+		selection: corpus === "B" ? "github_search_title_body" : "all",
 		policy_sha256: target.policySha256,
 		metadata: meta,
 		completed_at: new Date().toISOString(),
 	});
 	console.log(
-		`Tier ${tier}: ${target.repo}; ratio=${ratio}; selected PRs=${
-			tier === "B" ? selectedPrs.length : "all"
+		`Corpus ${corpus}: ${target.repo}; ratio=${ratio}; selected PRs=${
+			corpus === "B" ? selectedPrs.length : "all"
 		}`,
 	);
 }

@@ -1,11 +1,11 @@
-/** Tier search entry point for one repository of a frozen tiered run. */
+/** Corpus search entry point for one repository of a prepared run. */
 import { errorMessage, redactTokens } from "../lib/errors.ts";
 import { installTimestampedConsole } from "../lib/logging.ts";
 import { listenForStop } from "../lib/signals.ts";
 import { classifyRepository, loadTarget } from "./classify.ts";
 import { githubSearchTransport } from "./github_search.ts";
 
-export async function runTierSearch(): Promise<void> {
+export async function runCorpusSearch(): Promise<void> {
 	installTimestampedConsole();
 	const target = await loadTarget(Deno.args);
 	await Deno.mkdir(target.cacheDir, { recursive: true });

@@ -5,7 +5,7 @@
 import { type CachedSearch, SearchCap } from "./search_cache.ts";
 
 export type ItemKind = "pr" | "issue";
-/** `any` scores the tier (title, body, comments); `title_body` selects Tier B items. */
+/** `any` scores the corpus (title, body, comments); `title_body` selects corpus B items. */
 export type MatchScope = "any" | "title_body";
 /** Creation-time interval in epoch milliseconds, inclusive. */
 export type CreatedRange = [number, number];

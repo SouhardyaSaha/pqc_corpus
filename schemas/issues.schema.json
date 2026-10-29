@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huggingface.co/datasets/pqc-corpus/pqc-corpus/resolve/main/schemas/issues.schema.json",
+  "title": "issues",
+  "description": "An issue with its comments and the pull requests that close it. The full set (issues.jsonl) and the filtered set (issues_filtered.jsonl) use this schema. Key: repo, number.",
+  "type": "object",
+  "required": [
+    "repo",
+    "corpus",
+    "number",
+    "url",
+    "title",
+    "body",
+    "state",
+    "state_reason",
+    "author",
+    "created_at",
+    "closed_at",
+    "closed_by_prs",
+    "comments",
+    "fetched_at"
+  ],
+  "properties": {
+    "repo": {
+      "description": "Repository as owner/name.",
+      "type": "string"
+    },
+    "corpus": {
+      "description": "Corpus of the repository. A: every commit, issue and pull request. B: commits whose message names a PQC term or that belong to a pull request whose title or body names one, and issues and pull requests whose title or body names one. C: repositories with no issues or pull requests; every commit.",
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "number": {
+      "description": "Issue number.",
+      "type": "integer"
+    },
+    "url": {
+      "description": "Link to the issue on GitHub.",
+      "type": "string"
+    },
+    "title": {
+      "description": "Title.",
+      "type": "string"
+    },
+    "body": {
+      "description": "Text (Markdown); null when empty on GitHub.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "description": "open or closed.",
+      "type": "string",
+      "enum": [
+        "closed",
+        "open"
+      ]
+    },
+    "state_reason": {
+      "description": "Why the issue was closed or reopened.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "completed",
+        "duplicate",
+        "not_planned",
+        "reopened",
+        null
+      ]
+    },
+    "author": {
+      "description": "GitHub username; null for deleted accounts.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "description": "Creation time.",
+      "type": "string"
+    },
+    "closed_at": {
+      "description": "Close time.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "closed_by_prs": {
+      "description": "Pull requests that close this issue, ordered by repository and number.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "repo",
+          "number",
+          "url"
+        ],
+        "properties": {
+          "repo": {
+            "description": "Repository as owner/name.",
+            "type": "string"
+          },
+          "number": {
+            "description": "PR number.",
+            "type": "integer"
+          },
+          "url": {
+            "description": "Link to the PR on GitHub.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "comments": {
+      "description": "Comments in posting order.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "author",
+          "created_at",
+          "body"
+        ],
+        "properties": {
+          "author": {
+            "description": "GitHub username; null for deleted accounts.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "created_at": {
+            "description": "Posting time.",
+            "type": "string"
+          },
+          "body": {
+            "description": "Text (Markdown).",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "fetched_at": {
+      "description": "When the issue was fetched.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

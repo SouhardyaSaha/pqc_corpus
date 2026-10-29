@@ -1,0 +1,13 @@
+# Needed only to collect a new run (Git history mining). Exporting and filtering use the standard library.
+gitdb==4.0.12
+GitPython==3.1.62
+lizard==1.24.0
+pathspec==1.1.1
+PyDriller==2.9
+Pygments==2.21.0
+pytz==2026.3.post1
+smmap==5.0.3
+# Figures: PDF drawing (the CSV data needs nothing).
+matplotlib>=3.8
+# Tests: schema validation (skipped when absent).
+jsonschema>=4.10

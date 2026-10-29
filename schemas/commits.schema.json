@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huggingface.co/datasets/pqc-corpus/pqc-corpus/resolve/main/schemas/commits.schema.json",
+  "title": "commits",
+  "description": "A commit of a repository, with its full patch. The full set (commits.jsonl) and the filtered set (commits_filtered.jsonl) use this schema. Key: repo, sha.",
+  "type": "object",
+  "required": [
+    "repo",
+    "corpus",
+    "sha",
+    "url",
+    "message",
+    "author_name",
+    "author_key",
+    "authored_at",
+    "committer_name",
+    "committed_at",
+    "parents",
+    "pr_numbers",
+    "pr_urls",
+    "on_default_branch",
+    "in_merged_pr",
+    "pqc_in_linked_text",
+    "changed_files",
+    "lines_added",
+    "lines_deleted",
+    "patch_encoding",
+    "patch_content",
+    "fetched_at"
+  ],
+  "properties": {
+    "repo": {
+      "description": "Repository as owner/name, as requested at collection time.",
+      "type": "string"
+    },
+    "corpus": {
+      "description": "Corpus of the repository. A: every commit, issue and pull request. B: commits whose message names a PQC term or that belong to a pull request whose title or body names one, and issues and pull requests whose title or body names one. C: repositories with no issues or pull requests; every commit.",
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "sha": {
+      "description": "Commit SHA. The same SHA can occur in several repositories.",
+      "type": "string"
+    },
+    "url": {
+      "description": "Link to the commit on GitHub.",
+      "type": "string"
+    },
+    "message": {
+      "description": "Full commit message.",
+      "type": "string"
+    },
+    "author_name": {
+      "description": "Git author name.",
+      "type": "string"
+    },
+    "author_key": {
+      "description": "Opaque key of the Git author e-mail address (HMAC-SHA256 under a secret the dataset maintainers keep). Equal keys mean the same address; the address cannot be recovered or tested from the key.",
+      "type": "string"
+    },
+    "authored_at": {
+      "description": "Git author time, with the author's UTC offset.",
+      "type": "string"
+    },
+    "committer_name": {
+      "description": "Git committer name.",
+      "type": "string"
+    },
+    "committed_at": {
+      "description": "Git commit time.",
+      "type": "string"
+    },
+    "parents": {
+      "description": "Parent SHAs; more than one for a merge commit.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "pr_numbers": {
+      "description": "Numbers of the collected pull requests of the same repository that contain the commit; empty means no collected pull request contains it, not that it was pushed directly.",
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "pr_urls": {
+      "description": "Links to those PRs on GitHub, in the same order as pr_numbers.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "on_default_branch": {
+      "description": "True if the commit is reachable from the repository's default branch, as observed when it was mined.",
+      "type": "boolean"
+    },
+    "in_merged_pr": {
+      "description": "True if GitHub associates the commit with a merged pull request of the same repository, as observed when it was mined; can be true when pr_numbers is empty, because only keyword-selected pull requests are collected in tier B.",
+      "type": "boolean"
+    },
+    "pqc_in_linked_text": {
+      "description": "True if a PQC term appears in the title or body of a pull request of the same repository that GitHub associates with the commit, or of an issue such a pull request closes, as observed when the commit was mined. null when not observed: commits on no default branch and in no merged pull request.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "changed_files": {
+      "description": "Files changed against the first parent (an empty tree for a root commit).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "status",
+          "additions",
+          "deletions",
+          "binary"
+        ],
+        "properties": {
+          "path": {
+            "description": "File path.",
+            "type": "string"
+          },
+          "status": {
+            "description": "A added, M modified, D deleted, T type changed.",
+            "type": "string",
+            "enum": [
+              "A",
+              "D",
+              "M",
+              "T"
+            ]
+          },
+          "additions": {
+            "description": "Lines added; null for a binary file.",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "deletions": {
+            "description": "Lines deleted; null for a binary file.",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "binary": {
+            "description": "True for a binary file.",
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "lines_added": {
+      "description": "Lines added in total.",
+      "type": "integer"
+    },
+    "lines_deleted": {
+      "description": "Lines deleted in total.",
+      "type": "integer"
+    },
+    "patch_encoding": {
+      "description": "Encoding of patch_content: utf-8, or base64 when the patch is not valid UTF-8.",
+      "type": "string",
+      "enum": [
+        "base64",
+        "utf-8"
+      ]
+    },
+    "patch_content": {
+      "description": "Full git diff against the first parent (an empty tree for a root commit), including binary changes.",
+      "type": "string"
+    },
+    "fetched_at": {
+      "description": "When the commit was collected.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

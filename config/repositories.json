@@ -1,0 +1,721 @@
+{
+ "description": "The 179 GitHub repositories of PQC-Corpus: 50 curated and 129 found by keyword search, frozen on 2026-09-23.",
+ "repositories": [
+  {
+   "repo": "0rlych1kk4/quantum_identity_system",
+   "list": "crawled"
+  },
+  {
+   "repo": "acmert/kyber-polmul-hw",
+   "list": "crawled"
+  },
+  {
+   "repo": "aditisrinivas97/Crypto-Vinaigrette",
+   "list": "curated"
+  },
+  {
+   "repo": "algorand/falcon",
+   "list": "curated"
+  },
+  {
+   "repo": "amagioss/slv",
+   "list": "crawled"
+  },
+  {
+   "repo": "ameshkov/gocurl",
+   "list": "crawled"
+  },
+  {
+   "repo": "Anish-M-code/pqcrypt",
+   "list": "crawled"
+  },
+  {
+   "repo": "ANSSI-FR/MLA",
+   "list": "crawled"
+  },
+  {
+   "repo": "antontutoveanu/crystals-kyber-javascript",
+   "list": "crawled"
+  },
+  {
+   "repo": "Argyle-Software/dilithium",
+   "list": "crawled"
+  },
+  {
+   "repo": "Argyle-Software/kyber",
+   "list": "crawled"
+  },
+  {
+   "repo": "arnaultpascual/Verrou",
+   "list": "crawled"
+  },
+  {
+   "repo": "arnika-project/arnika",
+   "list": "crawled"
+  },
+  {
+   "repo": "ARS4EVER/QSP",
+   "list": "crawled"
+  },
+  {
+   "repo": "authelia/authelia",
+   "list": "crawled"
+  },
+  {
+   "repo": "Avarok-Cybersecurity/Citadel-Protocol",
+   "list": "crawled"
+  },
+  {
+   "repo": "aws/aws-lc-rs",
+   "list": "curated"
+  },
+  {
+   "repo": "aws/s2n-tls",
+   "list": "curated"
+  },
+  {
+   "repo": "backbone-hq/pqcrypto",
+   "list": "crawled"
+  },
+  {
+   "repo": "bcgit/bc-csharp",
+   "list": "curated"
+  },
+  {
+   "repo": "bcgit/bc-java",
+   "list": "curated"
+  },
+  {
+   "repo": "bcgit/bc-kotlin",
+   "list": "curated"
+  },
+  {
+   "repo": "bcgit/bc-rust",
+   "list": "curated"
+  },
+  {
+   "repo": "bcgit/pc-dart",
+   "list": "curated"
+  },
+  {
+   "repo": "cabelo/libzupt",
+   "list": "crawled"
+  },
+  {
+   "repo": "cbomkit/cbomkit",
+   "list": "crawled"
+  },
+  {
+   "repo": "cbomkit/cbomkit-theia",
+   "list": "crawled"
+  },
+  {
+   "repo": "cbomkit/sonar-cryptography",
+   "list": "crawled"
+  },
+  {
+   "repo": "celabshq/libcrux",
+   "list": "curated"
+  },
+  {
+   "repo": "chipsalliance/adams-bridge",
+   "list": "crawled"
+  },
+  {
+   "repo": "cloudflare/circl",
+   "list": "curated"
+  },
+  {
+   "repo": "Colfenor/classic-mceliece-rust",
+   "list": "crawled"
+  },
+  {
+   "repo": "Comcast/CARAF",
+   "list": "curated"
+  },
+  {
+   "repo": "crt26/PQC-LEO",
+   "list": "crawled"
+  },
+  {
+   "repo": "cyph/pqcrypto.js",
+   "list": "crawled"
+  },
+  {
+   "repo": "dajiaji/crystals-kyber-js",
+   "list": "crawled"
+  },
+  {
+   "repo": "dajiaji/hpke-js",
+   "list": "crawled"
+  },
+  {
+   "repo": "Dashlane/pqc.js",
+   "list": "crawled"
+  },
+  {
+   "repo": "eclipse-keypont/crypto11",
+   "list": "crawled"
+  },
+  {
+   "repo": "eclipse-keysealer/k8s-kms-plugin",
+   "list": "crawled"
+  },
+  {
+   "repo": "emmansun/gmsm",
+   "list": "crawled"
+  },
+  {
+   "repo": "facebook/folly",
+   "list": "curated"
+  },
+  {
+   "repo": "facebookincubator/fizz",
+   "list": "curated"
+  },
+  {
+   "repo": "FiloSottile/mlkem768",
+   "list": "crawled"
+  },
+  {
+   "repo": "FinAegis/core-banking-prototype-laravel",
+   "list": "crawled"
+  },
+  {
+   "repo": "fisherstevenk/crystals-kyber-ts",
+   "list": "crawled"
+  },
+  {
+   "repo": "fisherstevenk/kyberJCE",
+   "list": "crawled"
+  },
+  {
+   "repo": "ForkbombEu/pqspread",
+   "list": "crawled"
+  },
+  {
+   "repo": "GiacomoPope/Castryck-Decru-SageMath",
+   "list": "crawled"
+  },
+  {
+   "repo": "GiacomoPope/dilithium-py",
+   "list": "crawled"
+  },
+  {
+   "repo": "GiacomoPope/kyber-py",
+   "list": "crawled"
+  },
+  {
+   "repo": "GMUCERG/Dilithium",
+   "list": "crawled"
+  },
+  {
+   "repo": "golang/go",
+   "list": "curated"
+  },
+  {
+   "repo": "gravity-postquantum/gravity-sphincs",
+   "list": "crawled"
+  },
+  {
+   "repo": "gravity-postquantum/prune-horst",
+   "list": "crawled"
+  },
+  {
+   "repo": "grocid/libPQP",
+   "list": "crawled"
+  },
+  {
+   "repo": "HcashOrg/hcashd",
+   "list": "crawled"
+  },
+  {
+   "repo": "hezhijie0327/ZJDNS",
+   "list": "crawled"
+  },
+  {
+   "repo": "iavofficial/IAV_quantumSAR",
+   "list": "crawled"
+  },
+  {
+   "repo": "integritychain/fips203",
+   "list": "crawled"
+  },
+  {
+   "repo": "integritychain/fips204",
+   "list": "crawled"
+  },
+  {
+   "repo": "isec-tugraz/Picnic",
+   "list": "crawled"
+  },
+  {
+   "repo": "itzmeanjan/falcon",
+   "list": "crawled"
+  },
+  {
+   "repo": "itzmeanjan/ml-dsa",
+   "list": "crawled"
+  },
+  {
+   "repo": "itzmeanjan/ml-kem",
+   "list": "crawled"
+  },
+  {
+   "repo": "ixian-platform/Spixi",
+   "list": "crawled"
+  },
+  {
+   "repo": "jedisct1/libsodium",
+   "list": "curated"
+  },
+  {
+   "repo": "jiayaoqijia/eth2030",
+   "list": "crawled"
+  },
+  {
+   "repo": "jmlepisto/clatter",
+   "list": "crawled"
+  },
+  {
+   "repo": "jschanck/ntru",
+   "list": "crawled"
+  },
+  {
+   "repo": "junkurihara/rust-rpxy",
+   "list": "crawled"
+  },
+  {
+   "repo": "kasperdi/SPHINCSPLUS-golang",
+   "list": "crawled"
+  },
+  {
+   "repo": "kubernetes/kubernetes",
+   "list": "curated"
+  },
+  {
+   "repo": "kuking/go-frodokem",
+   "list": "crawled"
+  },
+  {
+   "repo": "lattice-complete/Lazarus",
+   "list": "crawled"
+  },
+  {
+   "repo": "leanEthereum/leanSpec",
+   "list": "crawled"
+  },
+  {
+   "repo": "LearningToSQI/SQISign-SageMath",
+   "list": "crawled"
+  },
+  {
+   "repo": "liesware/coherence",
+   "list": "crawled"
+  },
+  {
+   "repo": "litvinovtd/qeli",
+   "list": "crawled"
+  },
+  {
+   "repo": "LukaJCB/ts-mls",
+   "list": "crawled"
+  },
+  {
+   "repo": "lwe-frodo/lwe-frodo",
+   "list": "crawled"
+  },
+  {
+   "repo": "Mastercard/pkcs11-tools",
+   "list": "crawled"
+  },
+  {
+   "repo": "MHSanaei/3x-ui",
+   "list": "crawled"
+  },
+  {
+   "repo": "microsoft/PQCrypto-LWEKE",
+   "list": "crawled"
+  },
+  {
+   "repo": "microsoft/PQCrypto-VPN",
+   "list": "crawled"
+  },
+  {
+   "repo": "mjosaarinen/py-acvp-pqc",
+   "list": "crawled"
+  },
+  {
+   "repo": "mpaymenremora/QuantumSeal",
+   "list": "crawled"
+  },
+  {
+   "repo": "mthiim/dilithium-java",
+   "list": "crawled"
+  },
+  {
+   "repo": "mupq/pqm4",
+   "list": "curated"
+  },
+  {
+   "repo": "n42blockchain/N42-rs",
+   "list": "crawled"
+  },
+  {
+   "repo": "Neptune-Crypto/twenty-first",
+   "list": "crawled"
+  },
+  {
+   "repo": "NethermindEth/zinc-plus",
+   "list": "crawled"
+  },
+  {
+   "repo": "number571/go-peer",
+   "list": "crawled"
+  },
+  {
+   "repo": "number571/hidden-lake",
+   "list": "crawled"
+  },
+  {
+   "repo": "open-quantum-safe/liboqs",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/liboqs-cpp",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/liboqs-go",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/liboqs-java",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/liboqs-js",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/liboqs-python",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/liboqs-rust",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/openssh",
+   "list": "curated"
+  },
+  {
+   "repo": "open-quantum-safe/oqs-demos",
+   "list": "crawled"
+  },
+  {
+   "repo": "open-quantum-safe/oqs-provider",
+   "list": "curated"
+  },
+  {
+   "repo": "openHiTLS/openHiTLS",
+   "list": "crawled"
+  },
+  {
+   "repo": "openssl/openssl",
+   "list": "curated"
+  },
+  {
+   "repo": "orion-rs/orion",
+   "list": "curated"
+  },
+  {
+   "repo": "osbytes/crypt.fyi",
+   "list": "crawled"
+  },
+  {
+   "repo": "OWASP/openshield",
+   "list": "crawled"
+  },
+  {
+   "repo": "paulmillr/noble-post-quantum",
+   "list": "curated"
+  },
+  {
+   "repo": "PentHertz/LUKSbox",
+   "list": "crawled"
+  },
+  {
+   "repo": "pike00/coldkey",
+   "list": "crawled"
+  },
+  {
+   "repo": "pornin/c-fn-dsa",
+   "list": "crawled"
+  },
+  {
+   "repo": "pornin/rust-fn-dsa",
+   "list": "crawled"
+  },
+  {
+   "repo": "pq-code-package/mldsa-native",
+   "list": "curated"
+  },
+  {
+   "repo": "pq-code-package/mlkem-native",
+   "list": "curated"
+  },
+  {
+   "repo": "pq-code-package/slhdsa-c",
+   "list": "curated"
+  },
+  {
+   "repo": "pq-crystals/dilithium",
+   "list": "crawled"
+  },
+  {
+   "repo": "pq-crystals/kyber",
+   "list": "crawled"
+  },
+  {
+   "repo": "PQCMayo/MAYO-C",
+   "list": "crawled"
+  },
+  {
+   "repo": "pqcrypto-cn/PQMagic",
+   "list": "crawled"
+  },
+  {
+   "repo": "PQShield/nist-sigs-zoo",
+   "list": "crawled"
+  },
+  {
+   "repo": "QRCS-CORP/CEX",
+   "list": "crawled"
+  },
+  {
+   "repo": "Quantova/QCore.js",
+   "list": "crawled"
+  },
+  {
+   "repo": "Quantova/QCore.py",
+   "list": "crawled"
+  },
+  {
+   "repo": "Quantova/QCore.rs",
+   "list": "crawled"
+  },
+  {
+   "repo": "Quantum-Blockchains/dilithium",
+   "list": "crawled"
+  },
+  {
+   "repo": "quincy-rs/quincy",
+   "list": "crawled"
+  },
+  {
+   "repo": "quininer/sarkara",
+   "list": "crawled"
+  },
+  {
+   "repo": "randombit/botan",
+   "list": "curated"
+  },
+  {
+   "repo": "rasidi3112/Quantum-crypto",
+   "list": "crawled"
+  },
+  {
+   "repo": "rosenpass/rosenpass",
+   "list": "crawled"
+  },
+  {
+   "repo": "ruslan-ilesik/poqeth",
+   "list": "crawled"
+  },
+  {
+   "repo": "RustCrypto/elliptic-curves",
+   "list": "curated"
+  },
+  {
+   "repo": "RustCrypto/KEMs",
+   "list": "curated"
+  },
+  {
+   "repo": "RustCrypto/signatures",
+   "list": "curated"
+  },
+  {
+   "repo": "safecrypto/libsafecrypto",
+   "list": "crawled"
+  },
+  {
+   "repo": "sbom-tool/sbom-tools",
+   "list": "crawled"
+  },
+  {
+   "repo": "sebastienrousseau/kyberlib",
+   "list": "crawled"
+  },
+  {
+   "repo": "slh-dsa/sloth",
+   "list": "crawled"
+  },
+  {
+   "repo": "slothy-optimizer/slothy",
+   "list": "crawled"
+  },
+  {
+   "repo": "smuellerDD/leancrypto",
+   "list": "crawled"
+  },
+  {
+   "repo": "sphincs/sphincsplus",
+   "list": "crawled"
+  },
+  {
+   "repo": "SQISign/the-sqisign",
+   "list": "crawled"
+  },
+  {
+   "repo": "SRI-CSL/Bliss",
+   "list": "crawled"
+  },
+  {
+   "repo": "Sumitchongder/Quantum-Resistant-Module-Lattice-Cryptography",
+   "list": "crawled"
+  },
+  {
+   "repo": "swisslite/Kryptos",
+   "list": "crawled"
+  },
+  {
+   "repo": "symbolicsoft/kyber-k2so",
+   "list": "crawled"
+  },
+  {
+   "repo": "terra-quantum-public/tq42-pqc-oss",
+   "list": "curated"
+  },
+  {
+   "repo": "TheMaxMur/RS-Key",
+   "list": "crawled"
+  },
+  {
+   "repo": "theQRL/QRL",
+   "list": "curated"
+  },
+  {
+   "repo": "theQRL/qrl-wallet",
+   "list": "crawled"
+  },
+  {
+   "repo": "theQRL/qrllib",
+   "list": "crawled"
+  },
+  {
+   "repo": "thomwiggers/kemtls-experiment",
+   "list": "crawled"
+  },
+  {
+   "repo": "tidecoin-old/tidecoin",
+   "list": "crawled"
+  },
+  {
+   "repo": "tink-crypto/tink-cc",
+   "list": "curated"
+  },
+  {
+   "repo": "tink-crypto/tink-go",
+   "list": "curated"
+  },
+  {
+   "repo": "tink-crypto/tink-java",
+   "list": "curated"
+  },
+  {
+   "repo": "tink-crypto/tink-objc",
+   "list": "curated"
+  },
+  {
+   "repo": "tink-crypto/tink-py",
+   "list": "curated"
+  },
+  {
+   "repo": "tiredvpn/tiredvpn",
+   "list": "crawled"
+  },
+  {
+   "repo": "tniessen/node-pqclean",
+   "list": "curated"
+  },
+  {
+   "repo": "tprest/falcon.py",
+   "list": "crawled"
+  },
+  {
+   "repo": "vapor/jwt-kit",
+   "list": "crawled"
+  },
+  {
+   "repo": "veil-net/conflux",
+   "list": "crawled"
+  },
+  {
+   "repo": "Verified-zkEVM/VCVio",
+   "list": "crawled"
+  },
+  {
+   "repo": "vesvault/libVES.c",
+   "list": "crawled"
+  },
+  {
+   "repo": "VirgilSecurity/virgil-crypto-c",
+   "list": "crawled"
+  },
+  {
+   "repo": "wolfSSL/osp",
+   "list": "curated"
+  },
+  {
+   "repo": "wolfSSL/wolfCOSE",
+   "list": "crawled"
+  },
+  {
+   "repo": "wolfSSL/wolfcrypt-jni",
+   "list": "curated"
+  },
+  {
+   "repo": "wolfSSL/wolfssl",
+   "list": "curated"
+  },
+  {
+   "repo": "wolfSSL/wolfTPM",
+   "list": "crawled"
+  },
+  {
+   "repo": "XiantingWu/PQCensus",
+   "list": "crawled"
+  },
+  {
+   "repo": "XMSS/xmss-reference",
+   "list": "crawled"
+  },
+  {
+   "repo": "Xor-el/CryptoLib4Pascal",
+   "list": "crawled"
+  },
+  {
+   "repo": "xuxu298/PQCAnalyzer",
+   "list": "curated"
+  },
+  {
+   "repo": "ziglang/zig",
+   "list": "curated"
+  },
+  {
+   "repo": "zoahdev/kinegrant-protocol",
+   "list": "crawled"
+  }
+ ]
+}

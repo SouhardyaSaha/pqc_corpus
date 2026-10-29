@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huggingface.co/datasets/pqc-corpus/pqc-corpus/resolve/main/schemas/repositories.schema.json",
+  "title": "repositories",
+  "description": "A repository of the dataset with its corpus and GitHub metadata. The commit filter reads is_fork, description and topics; table 1 and figures 3-4 read the rest. Key: repo.",
+  "type": "object",
+  "required": [
+    "repo",
+    "corpus",
+    "url",
+    "description",
+    "topics",
+    "is_fork",
+    "language",
+    "stars",
+    "forks",
+    "created_at",
+    "github_pull_requests",
+    "github_issues",
+    "git_commits",
+    "fetched_at"
+  ],
+  "properties": {
+    "repo": {
+      "description": "Repository as owner/name, as requested at collection time.",
+      "type": "string"
+    },
+    "corpus": {
+      "description": "Corpus of the repository. A: every commit, issue and pull request. B: commits whose message names a PQC term or that belong to a pull request whose title or body names one, and issues and pull requests whose title or body names one. C: repositories with no issues or pull requests; every commit.",
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "url": {
+      "description": "Link to the repository on GitHub.",
+      "type": "string"
+    },
+    "description": {
+      "description": "GitHub description; null when empty.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "topics": {
+      "description": "GitHub topics.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "is_fork": {
+      "description": "True if the repository is a fork on GitHub.",
+      "type": "boolean"
+    },
+    "language": {
+      "description": "Primary language according to GitHub.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "stars": {
+      "description": "Stars when fetched.",
+      "type": "integer"
+    },
+    "forks": {
+      "description": "Forks when fetched.",
+      "type": "integer"
+    },
+    "created_at": {
+      "description": "When the repository was created on GitHub.",
+      "type": "string"
+    },
+    "github_pull_requests": {
+      "description": "GitHub's count of the repository's pull requests (any state) when its corpus was assigned.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "github_issues": {
+      "description": "GitHub's count of the repository's issues (any state) when its corpus was assigned.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "git_commits": {
+      "description": "Commits in the full Git history (every fetched ref) before selection.",
+      "type": "integer"
+    },
+    "fetched_at": {
+      "description": "When the repository metadata was fetched.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

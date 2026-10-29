@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://huggingface.co/datasets/pqc-corpus/pqc-corpus/resolve/main/schemas/pull_requests.schema.json",
+  "title": "pull_requests",
+  "description": "A pull request with its commits, the issues it closes, its discussion and its reviews. Key: repo, number.",
+  "type": "object",
+  "required": [
+    "repo",
+    "corpus",
+    "number",
+    "url",
+    "title",
+    "body",
+    "state",
+    "draft",
+    "merged",
+    "author",
+    "created_at",
+    "closed_at",
+    "merged_at",
+    "base_branch",
+    "head_branch",
+    "commit_shas",
+    "closes_issues",
+    "comments",
+    "reviews",
+    "review_comments",
+    "fetched_at"
+  ],
+  "properties": {
+    "repo": {
+      "description": "Repository as owner/name, as requested at collection time.",
+      "type": "string"
+    },
+    "corpus": {
+      "description": "Corpus of the repository. A: every commit, issue and pull request. B: commits whose message names a PQC term or that belong to a pull request whose title or body names one, and issues and pull requests whose title or body names one. C: repositories with no issues or pull requests; every commit.",
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    "number": {
+      "description": "Pull request number.",
+      "type": "integer"
+    },
+    "url": {
+      "description": "Link to the pull request on GitHub.",
+      "type": "string"
+    },
+    "title": {
+      "description": "Title.",
+      "type": "string"
+    },
+    "body": {
+      "description": "Text (Markdown); null when empty on GitHub.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "state": {
+      "description": "open or closed.",
+      "type": "string",
+      "enum": [
+        "closed",
+        "open"
+      ]
+    },
+    "draft": {
+      "description": "True if GitHub marked it as a draft.",
+      "type": "boolean"
+    },
+    "merged": {
+      "description": "True if it was merged.",
+      "type": "boolean"
+    },
+    "author": {
+      "description": "GitHub username; null for deleted accounts.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "created_at": {
+      "description": "Creation time.",
+      "type": "string"
+    },
+    "closed_at": {
+      "description": "Close time.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "merged_at": {
+      "description": "Merge time.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "base_branch": {
+      "description": "Branch it targets.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "head_branch": {
+      "description": "Branch it comes from (possibly in a fork).",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "commit_shas": {
+      "description": "SHAs of its commits, as GitHub lists them; each is in the commit file with this pull request in pr_numbers.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "closes_issues": {
+      "description": "Issues it closes (GitHub's closes relationship), ordered by repository and number; an issue may not be in the issue file.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "repo",
+          "number",
+          "url"
+        ],
+        "properties": {
+          "repo": {
+            "description": "Repository of the issue as owner/name; can differ from the pull request's.",
+            "type": "string"
+          },
+          "number": {
+            "description": "Issue number.",
+            "type": "integer"
+          },
+          "url": {
+            "description": "Link to the issue on GitHub.",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "comments": {
+      "description": "General discussion comments in posting order.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "author",
+          "created_at",
+          "body"
+        ],
+        "properties": {
+          "author": {
+            "description": "GitHub username; null for deleted accounts.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "created_at": {
+            "description": "Posting time.",
+            "type": "string"
+          },
+          "body": {
+            "description": "Text (Markdown).",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reviews": {
+      "description": "Formal reviews in submission order.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "author",
+          "state",
+          "submitted_at",
+          "body"
+        ],
+        "properties": {
+          "author": {
+            "description": "GitHub username; null for deleted accounts.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "state": {
+            "description": "APPROVED, CHANGES_REQUESTED, COMMENTED or DISMISSED.",
+            "type": "string"
+          },
+          "submitted_at": {
+            "description": "Submission time.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "body": {
+            "description": "Review text; may be empty.",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "review_comments": {
+      "description": "Inline comments on the diff in posting order.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "author",
+          "created_at",
+          "path",
+          "line",
+          "body"
+        ],
+        "properties": {
+          "author": {
+            "description": "GitHub username; null for deleted accounts.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "created_at": {
+            "description": "Posting time.",
+            "type": "string"
+          },
+          "path": {
+            "description": "File the comment is on.",
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "line": {
+            "description": "Line in the file, when GitHub reports one.",
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "body": {
+            "description": "Text (Markdown).",
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "fetched_at": {
+      "description": "When the pull request was fetched.",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

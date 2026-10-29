@@ -1,0 +1,18 @@
+{
+	"imports": {
+		"@std/path": "jsr:@std/path@^1.0.0",
+		"@std/dotenv": "jsr:@std/dotenv@^0.225.0",
+		"octokit": "https://esm.sh/octokit@4.1.4"
+	},
+	"fmt": {
+		"useTabs": true,
+		"lineWidth": 100,
+		"indentWidth": 2,
+		"semiColons": true,
+		"singleQuote": false
+	},
+	"lock": {
+		"path": "deno.lock",
+		"frozen": true
+	}
+}

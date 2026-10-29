@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+runs/
+output/
+# Draft paper; not part of the code or the dataset.
+PQC_Corpus.pdf

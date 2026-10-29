@@ -1,0 +1,15 @@
+PQC-Corpus data licence
+
+The selection, structure, filtering and documentation of the PQC-Corpus data
+(the JSON Lines files, their schemas and this documentation) are licensed under
+the Creative Commons Attribution 4.0 International licence (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+The content inside the records (commit messages, patches, issue and pull
+request text, comments and reviews) was written by the contributors of the 179
+GitHub repositories and remains under the licences of those repositories and
+GitHub's terms of service. Each record links to its source. Check the licence of
+the source repository before redistributing its content.
+
+The code that builds the data is licensed separately under the MIT licence
+(LICENSE in the code repository).

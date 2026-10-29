@@ -157,3 +157,22 @@ contact GitHub. The Git-history test needs PyDriller and the schema test needs
 Code: MIT ([LICENSE](LICENSE)). Data: CC BY 4.0 for the dataset's selection,
 structure and documentation; the content of the records stays under the licences of
 the source repositories ([LICENSE-DATA](LICENSE-DATA)).
+
+## Citation
+
+If you use PQC-Corpus, please cite it. The DOI
+[10.5281/zenodo.23784229](https://doi.org/10.5281/zenodo.23784229) always resolves to
+the latest version; version 1.0.0 is
+[10.5281/zenodo.23785041](https://doi.org/10.5281/zenodo.23785041).
+
+```bibtex
+@software{pqc_corpus_2026,
+  author    = {Saha Dip, Souhardya and Fakorede, Moshood A. and Farooq, Umar},
+  title     = {{PQC-Corpus: A Dataset of Post-Quantum Cryptography Development Artifacts on GitHub}},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {1.0.0},
+  doi       = {10.5281/zenodo.23784229},
+  url       = {https://doi.org/10.5281/zenodo.23784229}
+}
+```

@@ -3,7 +3,9 @@
 PQC-Corpus is a dataset of the development history of 179 public GitHub repositories
 about post-quantum cryptography (PQC), collected on 21–24 September 2026. This
 repository holds the code that builds it, its schemas and its documentation; the
-dataset card is [dataset_card/README.md](dataset_card/README.md).
+dataset card is [dataset_card/README.md](dataset_card/README.md). The dataset itself is
+on Zenodo ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)) and
+Hugging Face ([pqc-datasets/pqc-corpus](https://huggingface.co/datasets/pqc-datasets/pqc-corpus)).
 
 | File | One line is | Full set | Filtered set |
 |---|---|---:|---:|

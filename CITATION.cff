@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use PQC-Corpus or this code, please cite it as below."
+message: "If you use PQC-Corpus, please cite the dataset as below."
 type: software
 title: "PQC-Corpus: A Dataset of Post-Quantum Cryptography Development Artifacts on GitHub"
 abstract: >-
@@ -29,10 +29,23 @@ keywords:
   - dataset
   - GitHub
   - git
-references:
-  - type: data
-    title: PQC-Corpus
-    url: "https://huggingface.co/datasets/pqc-datasets/pqc-corpus"
-    license: CC-BY-4.0
-    authors:
-      - name: The PQC-Corpus authors
+preferred-citation:
+  type: data
+  title: "PQC-Corpus: A Linked Dataset of Post-Quantum Cryptography Development"
+  authors:
+    - given-names: Souhardya
+      family-names: Saha Dip
+      affiliation: Louisiana State University
+    - given-names: Moshood A.
+      family-names: Fakorede
+      affiliation: Louisiana State University
+    - given-names: Umar
+      family-names: Farooq
+      affiliation: Louisiana State University
+  version: 1.0.0
+  year: 2026
+  publisher:
+    name: Zenodo
+  doi: 10.5281/zenodo.23890225
+  url: "https://doi.org/10.5281/zenodo.23890225"
+  license: CC-BY-4.0

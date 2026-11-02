@@ -118,19 +118,17 @@ repositories and remains under those repositories' licences; see `LICENSE`.
 
 ## Citation
 
-If you use PQC-Corpus, please cite it. The DOI
-[10.5281/zenodo.23784229](https://doi.org/10.5281/zenodo.23784229) always resolves to
-the latest version; version 1.0.0 is
-[10.5281/zenodo.23785041](https://doi.org/10.5281/zenodo.23785041).
+If you use PQC-Corpus, please cite the dataset
+([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)):
 
 ```bibtex
-@software{pqc_corpus_2026,
+@dataset{pqc_corpus_2026,
   author    = {Saha Dip, Souhardya and Fakorede, Moshood A. and Farooq, Umar},
-  title     = {{PQC-Corpus: A Dataset of Post-Quantum Cryptography Development Artifacts on GitHub}},
+  title     = {{PQC-Corpus: A Linked Dataset of Post-Quantum Cryptography Development}},
   year      = {2026},
   publisher = {Zenodo},
   version   = {1.0.0},
-  doi       = {10.5281/zenodo.23784229},
-  url       = {https://doi.org/10.5281/zenodo.23784229}
+  doi       = {10.5281/zenodo.23890225},
+  url       = {https://doi.org/10.5281/zenodo.23890225}
 }
 ```

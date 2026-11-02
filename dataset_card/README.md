@@ -127,7 +127,7 @@ If you use PQC-Corpus, please cite the dataset
 ```bibtex
 @dataset{pqc_corpus_2026,
   author    = {Saha Dip, Souhardya and Fakorede, Moshood A. and Farooq, Umar},
-  title     = {{PQC-Corpus: A Linked Dataset of Post-Quantum Cryptography Development}},
+  title     = {{PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography}},
   year      = {2026},
   publisher = {Zenodo},
   version   = {1.0.0},

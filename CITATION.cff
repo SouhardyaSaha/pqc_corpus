@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use PQC-Corpus, please cite the dataset as below."
 type: software
-title: "PQC-Corpus: A Dataset of Post-Quantum Cryptography Development Artifacts on GitHub"
+title: "PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography"
 abstract: >-
   Code that builds PQC-Corpus, a dataset of the development history of 179 public
   GitHub repositories about post-quantum cryptography (PQC), collected on
@@ -31,7 +31,7 @@ keywords:
   - git
 preferred-citation:
   type: data
-  title: "PQC-Corpus: A Linked Dataset of Post-Quantum Cryptography Development"
+  title: "PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography"
   authors:
     - given-names: Souhardya
       family-names: Saha Dip

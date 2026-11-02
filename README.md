@@ -30,12 +30,13 @@ pqc_corpus/            Python package: python -m pqc_corpus ...
   export/              write a finished run as JSON Lines
   filters/             commit filter (eight steps) and issue filter
   release.py           check a release directory, split large files, write checksums
+  database/            the SQLite edition of a release, checked against it line by line
   figures.py           table 1 and figures 3-5 of the paper
 collector/             Deno (TypeScript) GitHub collector and corpus search, run by the pipeline
 config/                frozen inputs: the 179 repositories and the corpus policy (90 search terms)
 dataset_card/          the dataset's README for Hugging Face
 schemas/               JSON Schemas of the data files
-docs/                  how collection and filtering work
+docs/                  how collection and filtering work; DATABASE.md is the SQLite edition's README
 tests/                 Python tests (collector tests are in collector/tests/)
 ```
 
@@ -50,6 +51,7 @@ python -m pqc_corpus commits       filter --input out/commits --repositories out
                                           --output out/commits_filtered
 python -m pqc_corpus issues        filter --input out/issues.jsonl --output out/issues_filtered.jsonl
 python -m pqc_corpus release --dir out
+python -m pqc_corpus database --dir out --output pqc_corpus.db
 python -m pqc_corpus figures --dir out --output figures
 ```
 
@@ -69,6 +71,11 @@ python -m pqc_corpus figures --dir out --output figures
 - **`release`** checks every file's row count, splits any single file over 1 GB into
   parts, copies in the dataset card, field guide, schemas and data licence, and writes
   `manifest.json` and `SHA256SUMS` (check with `sha256sum -c SHA256SUMS`).
+- **`database`** writes every dataset, the removal lists and the commit observations of
+  a release directory into one SQLite file (tables in
+  [docs/DATABASE.md](docs/DATABASE.md)). It then rebuilds every data file from the
+  database and keeps the database only if each line matches the release byte for byte.
+  It needs free space for the database (about 29 GB for the frozen run).
 - **`figures`** writes table 1 (CSV, Markdown, LaTeX) and the data of figures 3–5 as
   CSV from a release directory, and draws the figures as PDF when matplotlib is
   installed.
@@ -85,8 +92,8 @@ pull_requests mine   11,919   repositories mine   179
 
 ## Setup
 
-- Python 3.11 or later. Exporting, filtering and `release` use only the standard
-  library; `figures` draws PDFs with matplotlib if it is installed.
+- Python 3.11 or later. Exporting, filtering, `release` and `database` use only the
+  standard library; `figures` draws PDFs with matplotlib if it is installed.
 - To collect a new run, you also need Git, [Deno](https://deno.com) 2 (its dependencies
   are pinned in `collector/deno.lock`), PyDriller
   (`pip install -r requirements.txt`), and GitHub tokens: copy `.env.example` to
@@ -168,7 +175,7 @@ If you use PQC-Corpus, please cite the dataset
 ```bibtex
 @dataset{pqc_corpus_2026,
   author    = {Saha Dip, Souhardya and Fakorede, Moshood A. and Farooq, Umar},
-  title     = {{PQC-Corpus: A Linked Dataset of Post-Quantum Cryptography Development}},
+  title     = {{PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography}},
   year      = {2026},
   publisher = {Zenodo},
   version   = {1.0.0},

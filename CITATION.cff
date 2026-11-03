@@ -8,7 +8,8 @@ abstract: >-
   21–24 September 2026. It mines commits with full patches, issues and pull
   requests with their discussions and reviews, and repository metadata; filters
   the commits (114,361 to 47,729) and issues (5,713 to 5,687) with fixed, scripted
-  rules; and writes a checksummed release with Table I and Figures 3–5.
+  rules; writes a checksummed release with Table I and Figures 3–5; and builds
+  the SQLite edition of a release.
 authors:
   - given-names: Souhardya
     family-names: Saha Dip
@@ -20,7 +21,7 @@ authors:
     family-names: Farooq
     affiliation: Louisiana State University
 version: 1.0.0
-date-released: 2026-10-29
+date-released: 2026-11-02
 license: MIT
 repository-code: "https://github.com/SouhardyaSaha/pqc_corpus"
 keywords:

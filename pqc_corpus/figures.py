@@ -1,16 +1,16 @@
-"""Table 1 and figures 3-5 of the PQC-Corpus paper, computed from a release directory only.
+"""A per-corpus summary table and three figures, computed from a release directory only.
 
 Inputs and the fields read:
 
 | Output | File | Fields |
 |---|---|---|
-| table 1 | repositories | corpus, github_pull_requests, github_issues, git_commits |
+| table1 | repositories | corpus, github_pull_requests, github_issues, git_commits |
 | | commits, commits_filtered | repo, corpus (counted per line) |
 | | issues, issues_filtered | corpus, comments |
 | | pull_requests | corpus, commit_shas, closes_issues, comments, reviews, review_comments |
-| figure 3 | repositories | language; commits per repository |
-| figure 4 | repositories | corpus, stars, forks, created_at, fetched_at; commits per repository |
-| figure 5 | pull_requests | corpus, created_at |
+| fig3 | repositories | language; commits per repository |
+| fig4 | repositories | corpus, stars, forks, created_at, fetched_at; commits per repository |
+| fig5 | pull_requests | corpus, created_at |
 
 Every figure's numbers are also written as CSV, so the PDFs (drawn only when
 matplotlib is installed) can be checked or redrawn. Nothing in the release is

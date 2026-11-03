@@ -7,7 +7,7 @@
     pull_requests mine   write every collected pull request with its discussion and reviews
     repositories mine    write every repository with its corpus and GitHub metadata
     release              check a release directory, split large files into parts, write checksums
-    figures              write table 1 and figures 3-5 of the paper from a release directory
+    figures              write a corpus summary table and figure data from a release directory
 
 `mine` prepares the run directory from `config/` when it is new and resumes an
 unfinished collection; with `--no-collect` it only writes a finished run and
@@ -126,7 +126,7 @@ def parser() -> argparse.ArgumentParser:
     release.add_argument('--dir', type=Path, required=True, help='directory holding the mined and filtered files')
     release.add_argument('--part-size', type=int, default=jsonl.PART_BYTES,
                          help='split single files larger than this many bytes into parts (default 1 GiB)')
-    figures = kinds.add_parser('figures', help='write table 1 and figures 3-5 from a release directory')
+    figures = kinds.add_parser('figures', help='write a corpus summary table and figure data from a release directory')
     figures.add_argument('--dir', type=Path, required=True, help='release directory')
     figures.add_argument('--output', type=Path, required=True, help='new directory for the table and figures')
     return top

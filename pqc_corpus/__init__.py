@@ -5,5 +5,5 @@ Subpackages:
     export      write a finished run as JSON Lines (commits, issues, pull requests, repositories)
     filters     reduce the mined commits and issues to the filtered sets
     release     check a release directory, split large files into parts, write checksums
-    figures     table 1 and figures 3-5 of the paper from a release directory
+    figures     a corpus summary table and figure data from a release directory
 """

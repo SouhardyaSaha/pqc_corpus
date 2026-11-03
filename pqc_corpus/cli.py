@@ -128,8 +128,6 @@ def parser() -> argparse.ArgumentParser:
     release.add_argument('--part-size', type=int, default=jsonl.PART_BYTES,
                          help='split single files larger than this many bytes into parts (default 1 GiB)')
     database = kinds.add_parser('database', help='write the SQLite edition of a release directory')
-    database.add_argument('--dir', type=Path, required=True, help='release directory')
-    database.add_argument('--output', type=Path, required=True, help='new database file')
     figures = kinds.add_parser('figures', help='write table 1 and figures 3-5 from a release directory')
     figures.add_argument('--dir', type=Path, required=True, help='release directory')
     figures.add_argument('--output', type=Path, required=True, help='new directory for the table and figures')

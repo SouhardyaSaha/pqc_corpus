@@ -1,10 +1,10 @@
 """One record per repository: its corpus and the GitHub metadata the commit filter and the figures read.
 
 The commit filter needs `is_fork`, `description` and `topics` (see `filters.commits`).
-`language`, `stars`, `forks` and `created_at` describe the corpus (figures 3 and 4).
+`language`, `stars`, `forks` and `created_at` describe the corpus (`figures`: fig3, fig4).
 `github_pull_requests` and `github_issues` are GitHub's totals when the corpus was
 assigned, and `git_commits` the size of the full Git history before selection
-(table 1).
+(`figures`: table1).
 """
 
 from pathlib import Path

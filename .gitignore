@@ -8,5 +8,3 @@ __pycache__/
 build/
 runs/
 output/
-# Draft paper; not part of the code or the dataset.
-PQC_Corpus.pdf

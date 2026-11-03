@@ -7,6 +7,12 @@ dataset card is [dataset_card/README.md](dataset_card/README.md). The dataset it
 on Zenodo ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)) and
 Hugging Face ([pqc-datasets/pqc-corpus](https://huggingface.co/datasets/pqc-datasets/pqc-corpus)).
 
+The [patch-free dataset](data/pqc-corpus-reviewer-metadata-4d72fb0.zip)
+(103.7 MB ZIP; 598.7 MB extracted) preserves all six views and all fields except
+commit patch contents, retaining patch hashes and source locations. Derived from
+Hugging Face source revision [4d72fb0](https://huggingface.co/datasets/pqc-datasets/pqc-corpus/tree/4d72fb06f0a9bcbf4d03412557255ea103e3109c);
+[SHA-256 checksum](data/pqc-corpus-reviewer-metadata-4d72fb0.zip.sha256).
+
 | File | One line is | Full set | Filtered set |
 |---|---|---:|---:|
 | `commits` / `commits_filtered` | a commit, with its full patch | 114,361 | 47,729 |
@@ -15,29 +21,47 @@ Hugging Face ([pqc-datasets/pqc-corpus](https://huggingface.co/datasets/pqc-data
 | `repositories` | a repository, with its corpus and GitHub metadata | 179 | — |
 
 Every record belongs to a **corpus**: A (81 repositories, everything collected), B (87,
-only keyword-matching items) or C (11, commits only). The **full set** is everything
+only keyword-matching items) or C (11, commits only);
+[docs/CORPORA.md](docs/CORPORA.md) lists the repositories in each. The **full set** is everything
 collected. The **filtered set** keeps one copy of each change that reached a project's
 main history, without inherited fork history, non-PQC work in general-purpose
 libraries, or housekeeping commits, and issues written by people rather than bots
 ([docs/FILTERING.md](docs/FILTERING.md)). Field meanings are in [SCHEMA.md](SCHEMA.md);
 storage, JSON Schemas and examples are in [schemas/](schemas/README.md).
 
-## Layout
+## Repository Layout
 
-```
-pqc_corpus/            Python package: python -m pqc_corpus ...
-  collection/          collect a run: corpus search, GitHub API, Git history, commit selection, eligibility
-  export/              write a finished run as JSON Lines
-  filters/             commit filter (eight steps) and issue filter
-  release.py           check a release directory, split large files, write checksums
-  database/            the SQLite edition of a release, checked against it line by line
-  figures.py           table 1 and figures 3-5 of the paper
-collector/             Deno (TypeScript) GitHub collector and corpus search, run by the pipeline
-config/                frozen inputs: the 179 repositories and the corpus policy (90 search terms)
-dataset_card/          the dataset's README for Hugging Face
-schemas/               JSON Schemas of the data files
-docs/                  how collection and filtering work; DATABASE.md is the SQLite edition's README
-tests/                 Python tests (collector tests are in collector/tests/)
+```text
+.
+├── data/                  Patch-free dataset ZIP and SHA-256 checksum
+├── pqc_corpus/            Python CLI: python -m pqc_corpus
+│   ├── collection/       Run orchestration, Git history, selection, and eligibility
+│   ├── export/           JSONL exporters for completed collection runs
+│   ├── filters/          Eight-step commit filtering and bot-issue filtering
+│   ├── release.py        Release validation, sharding, manifests, and checksums
+│   ├── database/         SQLite edition, rebuilt and checked against the release
+│   └── figures.py        Corpus summaries, repository profiles, and annual PR counts
+├── collector/            Deno/TypeScript GitHub collector
+│   ├── api/              API retrieval, pagination, and recovery
+│   ├── search/           Repository classification and keyword search
+│   ├── lib/              Shared GitHub transport, token rotation, and utilities
+│   ├── tests/            Collector tests and fixtures
+│   ├── deno.json         Deno configuration
+│   └── deno.lock         Locked collector dependencies
+├── config/               Frozen repository list and 90-term selection policy
+├── dataset_card/         Dataset README distributed with the Hugging Face release
+├── schemas/              Four JSON Schemas and record examples
+├── scripts/              Offline traversal, audit, statistics, and paper figures for a release
+├── docs/                 Collection procedures, filtering rules, limitations, repositories by corpus, and the SQLite edition
+├── tests/                Python tests and fixtures
+├── SCHEMA.md             Field definitions and relationship semantics
+├── pyproject.toml        Python package, CLI entry point, and optional dependencies
+├── requirements.txt      Collection, plotting, and schema-validation dependencies
+├── .env.example          Template for local GitHub token configuration
+├── CITATION.cff          Software citation metadata
+├── .zenodo.json          Zenodo archival metadata
+├── LICENSE               MIT license for the code
+└── LICENSE-DATA          Dataset licensing scope and upstream-content boundaries
 ```
 
 ## Commands
@@ -76,9 +100,12 @@ python -m pqc_corpus figures --dir out --output figures
   [docs/DATABASE.md](docs/DATABASE.md)). It then rebuilds every data file from the
   database and keeps the database only if each line matches the release byte for byte.
   It needs free space for the database (about 29 GB for the frozen run).
-- **`figures`** writes table 1 (CSV, Markdown, LaTeX) and the data of figures 3–5 as
-  CSV from a release directory, and draws the figures as PDF when matplotlib is
-  installed.
+- **`figures`** reads a release directory and writes a per-corpus summary table
+  (`table1.csv`, `.md`, `.tex`) and the data behind three figures as CSV: languages and
+  commits per repository (`fig3*`), repository profiles (`fig4`), and pull requests per
+  year (`fig5`). It draws the figures as PDF when matplotlib is installed. These outputs
+  come from an earlier draft of the data paper; the paper's current figures come from
+  [`scripts/`](scripts/README.md).
 - Each written file gets a `.meta.json` beside it with its row count, SHA-256 and the
   name of the run it came from. No output records an absolute path.
 
@@ -92,14 +119,74 @@ pull_requests mine   11,919   repositories mine   179
 
 ## Setup
 
-- Python 3.11 or later. Exporting, filtering, `release` and `database` use only the
-  standard library; `figures` draws PDFs with matplotlib if it is installed.
-- To collect a new run, you also need Git, [Deno](https://deno.com) 2 (its dependencies
-  are pinned in `collector/deno.lock`), PyDriller
-  (`pip install -r requirements.txt`), and GitHub tokens: copy `.env.example` to
-  `.env` and set `GITHUB_TOKEN_1` (up to `GITHUB_TOKEN_10`). Tokens are never logged.
-- Disk: the full commit file is about 28 GB, the filtered one about 14 GB, and a run's
-  Git mirrors about 20 GB.
+Run the following commands from the repository root on macOS or Linux (WSL on
+Windows). Shell examples use Bash/Zsh; the CLI requires POSIX file locking.
+
+### Use the existing dataset
+
+The patch-free archive can be used without GitHub tokens or collection tools.
+Verify and extract it:
+
+```bash
+cd data
+shasum -a 256 -c pqc-corpus-reviewer-metadata-4d72fb0.zip.sha256
+unzip pqc-corpus-reviewer-metadata-4d72fb0.zip
+cd ..
+```
+
+On Linux, `sha256sum -c` can replace `shasum -a 256 -c`. The extracted
+`data/pqc-corpus-reviewer-metadata/README.txt` explains its JSONL views, schemas,
+and patch locators. Use the full Hugging Face snapshot linked above for patch
+analysis and reproducing the commit filters.
+
+### Set up the Python CLI
+
+Use **Python 3.11 or later**; check with `python3 --version` before creating the
+environment. An editable install keeps the CLI alongside `config/` and `collector/`.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+python -m pqc_corpus --help
+```
+
+Exporting completed runs, filtering, release packaging, and `database` use
+Python's standard library; exporting commit patches also requires Git. Install
+optional Python dependencies for the tasks you need:
+
+```bash
+python -m pip install -e '.[collect]'   # PyDriller and Git-history dependencies
+python -m pip install -e '.[figures]'   # matplotlib for PDF figures
+python -m pip install -e '.[test]'      # JSON Schema validation in tests
+```
+
+For all three, use `python -m pip install -e '.[collect,figures,test]'`.
+
+### Collect a new run
+
+Install **Git**, **[Deno](https://deno.com) 2**, and the **`flock` command**, add
+them to `PATH`, and install the `collect` dependencies above. macOS requires
+installing `flock` separately. Check the executables:
+
+```bash
+git --version
+deno --version
+command -v flock
+```
+
+Copy `.env.example` to `.env` if you have not configured it already. Set
+`GITHUB_TOKEN_1` to a GitHub token with read access to the public repositories;
+optional additional tokens use `GITHUB_TOKEN_2` through `GITHUB_TOKEN_10`.
+Both collectors read the repository's `.env` or process environment. Keep token
+values private; `.env` is excluded from Git. Deno dependencies are locked in
+`collector/deno.lock` and downloaded on first use.
+
+Then use the [`mine` commands](#commands) with a shared `--run-dir`. The full
+release occupies 42.82 GB; fresh collection also needs space for Git mirrors,
+API databases, and intermediate outputs. Set `--run-dir` and `--output` to a
+volume with sufficient space. The bundled metadata needs approximately 703 MB
+for its ZIP and extracted files together.
 
 ## Collecting a run
 
@@ -135,7 +222,25 @@ the reference data:
 
 - the commit filter, rerun on the released `commits` and `repositories`, and the issue
   filter, rerun on the released `issues`, give the released filtered sets exactly;
-- `figures`, run on the release directory, gives table 1 and figures 3–5 of the paper.
+- `figures`, run on the release directory, gives the same summary table and figure data
+  on every run.
+
+## Working with a release
+
+[`scripts/`](scripts/README.md) holds standalone scripts that read a published release
+offline, with no GitHub access: an issue-to-patch traversal, the release audit, the
+patch-free exporter and its verifier, descriptive statistics, and the data paper's
+figures. Most of them also run on the patch-free view.
+
+```bash
+python3 scripts/reuse/trace_issue.py --data DATA --repo RustCrypto/KEMs --issue 46 --output trace.json
+python3 scripts/validation/audit_dataset.py DATA --output audit.json
+python3 scripts/analysis/characterize_coverage.py --data data/pqc-corpus-reviewer-metadata
+```
+
+Replace `DATA` with the path of your local clone of the full Hugging Face release (for
+example `./data`); [scripts/README.md](scripts/README.md) shows how to
+download it and says which scripts also run on the patch-free view.
 
 The commits were mined from the frozen run with the eligibility observations made on
 29 September 2026, published with the dataset as
@@ -154,6 +259,7 @@ python -m pqc_corpus commits mine --run-dir FROZEN_RUN --no-collect \
 
 ```bash
 python -m unittest discover -s tests -v
+python -m unittest discover -s scripts/tests -v
 deno test --config collector/deno.json -A collector/tests
 ```
 

@@ -85,8 +85,8 @@ number.
 | `github_pull_requests`, `github_issues` | GitHub's counts of all the repository's pull requests and issues when its corpus was assigned |
 | `git_commits` | commits in the repository's full Git history before selection |
 
-The commit filter reads `is_fork`, `description` and `topics`; table 1 and figures 3–4
-of the paper read the rest.
+The commit filter reads `is_fork`, `description` and `topics`; the `figures` command
+and `scripts/` read the rest.
 
 Every record also has `fetched_at`, when it was observed; later edits on GitHub are
 not included.

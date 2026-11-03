@@ -63,21 +63,24 @@ There are two ways to get the data:
 | `figures/make_repositories.py` | yes | yes |
 | `figures/make_coverage.py`, `figures/make_activity.py` | reads `coverage.json` | reads `coverage.json` |
 
-In the commands below, `DATA` is a full release checkout and `META` is
+In the commands below, replace `DATA` with the path of the full release you cloned
+above (the directory that contains `SHA256SUMS`), and `META` with
 `data/pqc-corpus-reviewer-metadata`. Where both work, either can be passed to `--data`.
 
 ## Trace an issue to its patches
 
 ```bash
-python3 scripts/reuse/trace_issue.py --data DATA --output trace-full.json
-python3 scripts/reuse/trace_issue.py --data DATA --filtered --output trace-filtered.json
+python3 scripts/reuse/trace_issue.py --data DATA --repo RustCrypto/KEMs --issue 46 --output trace-full.json
+python3 scripts/reuse/trace_issue.py --data DATA --repo RustCrypto/KEMs --issue 46 --filtered --output trace-filtered.json
 ```
 
-The script starts at an issue, follows its `closed_by_prs` links to the PRs, and
-resolves each PR's `commit_shas` in the commit view. The default is
-`RustCrypto/KEMs` issue 46, which leads to PR 47 and five commits. Choose another with
-`--repo OWNER/NAME --issue NUMBER`. `--filtered` reads `commits_filtered` instead of
-`commits` and lists any linked commit the filtered view does not contain.
+The script starts at the issue named by `--repo OWNER/NAME --issue NUMBER`, follows
+its `closed_by_prs` links to the PRs, and resolves each PR's `commit_shas` in the
+commit view. Without the two options it traces `RustCrypto/KEMs` issue 46, which leads
+to PR 47 and five commits. Any issue in the release can be traced, but only 1,869 of
+the 5,713 issues have a closing-PR link; for the rest, the output says that no closing
+PR is recorded. `--filtered` reads `commits_filtered` instead of `commits` and lists
+any linked commit the filtered view does not contain.
 
 The JSON output gives, for each commit, the shard and line it was read from, its
 changed paths, and the SHA-256 and decoded size of its patch. Targets that were not

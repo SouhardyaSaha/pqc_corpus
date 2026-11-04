@@ -77,7 +77,7 @@ def load_adjudication(path):
             break
         record = dict(zip(header, row))
         review[record['R-ID']] = {
-            'proposed': as_bool(record['Proposed is_pqc_related'], f'{path.name} {record["R-ID"]}'),
+            'label': as_bool(record['Adjudicated is_pqc_related'], f'{path.name} {record["R-ID"]}'),
             'raters': tuple(as_bool(record[name], f'{path.name} {record["R-ID"]}') for name in 'AB'),
             'status': record['Review status'],
         }
@@ -242,7 +242,7 @@ def run_commits(args):
         entry = review.get(ids[key])
         if entry is None or entry['raters'] != (a, b):
             raise ValueError(f'{ids[key]}: no matching adjudication for an A-B disagreement')
-        final[key] = settled[ids[key]] = entry['proposed']
+        final[key] = settled[ids[key]] = entry['label']
 
     agreement = cohen(pairs)
     agreement['cohen_kappa_95ci_bootstrap'] = bootstrap(pairs, cohen, 'cohen_kappa', args.rounds, args.seed)

@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-"""Inter-rater agreement and precision of PQC-relevance labels for issues and commits."""
+"""Inter-rater agreement and PQC-related share of the labeled issue and commit samples."""
 import argparse
 import json
-import math
 import random
 import re
-from collections import Counter
 from pathlib import Path
 
 import openpyxl
@@ -86,7 +84,7 @@ def load_adjudication(path):
 
 def commit_corpora(directory, wanted):
     # Read only each line's repo, corpus and sha, so patch-bearing shards stay cheap to scan.
-    found, population = {}, Counter()
+    found = {}
     for part in sorted(directory.glob('*.jsonl')):
         with part.open('rb') as handle:
             at_start, prefix = True, b''
@@ -101,7 +99,6 @@ def commit_corpora(directory, wanted):
                             if not match:
                                 raise ValueError(f'{part}: unexpected record prefix')
                             key = (json.loads(match.group(1)), match.group(3).decode())
-                            population[match.group(2).decode()] += 1
                             if key in wanted:
                                 found[key] = match.group(2).decode()
                             at_start, prefix = False, b''
@@ -112,7 +109,7 @@ def commit_corpora(directory, wanted):
                     if end < 0:
                         break
                     position, at_start = end + 1, True
-    return found, population
+    return found
 
 
 def view_directory(release, name):
@@ -152,41 +149,18 @@ def bootstrap(rows, statistic, key, rounds, seed):
     return [values[int(.025 * rounds)], values[int(.975 * rounds) - 1]]
 
 
-def wilson(hits, n, z=1.96):
-    p = hits / n
-    centre = (p + z * z / (2 * n)) / (1 + z * z / n)
-    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / (1 + z * z / n)
-    return [round(centre - half, 4), round(centre + half, 4)]
-
-
 def proportion(labels):
     hits, n = sum(labels), len(labels)
-    return {'n': n, 'true': hits, 'precision': round(hits / n, 4), 'wilson_95ci': wilson(hits, n)}
+    return {'n': n, 'pqc_related': hits, 'share': round(hits / n, 4)}
 
 
-def weighted(groups, population, z=1.96):
-    # Weight each corpus by its share of the view, with finite-population correction.
-    total = sum(population[group] for group in groups)
-    estimate = variance = 0.0
-    for group, labels in groups.items():
-        n, share, p = len(labels), population[group] / total, sum(labels) / len(labels)
-        estimate += share * p
-        variance += share ** 2 * p * (1 - p) / n * (1 - n / population[group])
-    half = z * math.sqrt(variance)
-    return {'population': {group: population[group] for group in sorted(groups)},
-            'precision': round(estimate, 4),
-            'normal_95ci': [round(max(0.0, estimate - half), 4), round(min(1.0, estimate + half), 4)]}
-
-
-def precision_report(labels, corpus, population=None):
+def share_report(labels, corpus):
+    # Shares of the labeled sample only; the samples are not random, so no corpus-level estimate.
     groups = {}
     for key, label in labels.items():
         groups.setdefault(corpus[key], []).append(label)
-    report = {'unweighted': proportion(list(labels.values())),
-              'by_corpus': {group: proportion(values) for group, values in sorted(groups.items())}}
-    if population:
-        report['weighted_by_corpus'] = weighted(groups, population)
-    return report
+    return {'all': proportion(list(labels.values())),
+            'by_corpus': {group: proportion(values) for group, values in sorted(groups.items())}}
 
 
 def run_issues(args):
@@ -220,10 +194,9 @@ def run_issues(args):
         corpus = {record['url']: record['corpus'] for record in records if record['url'] in final}
         if set(corpus) != set(final):
             raise ValueError(f'{len(set(final) - set(corpus))} annotated issues are not in issues_filtered')
-        population = Counter(record['corpus'] for record in records)
-        report['precision'] = precision_report(final, corpus, population)
+        report['pqc_related'] = share_report(final, corpus)
     else:
-        report['precision'] = proportion(list(final.values()))
+        report['pqc_related'] = proportion(list(final.values()))
     return report
 
 
@@ -255,16 +228,16 @@ def run_commits(args):
         'adjudicated': {rid: {'label': label, 'status': review[rid]['status']} for rid, label in sorted(settled.items())},
     }
     if args.release:
-        corpus, population = commit_corpora(view_directory(args.release, 'commits'), set(keys))
-        filtered, filtered_population = commit_corpora(view_directory(args.release, 'commits_filtered'), set(keys))
+        corpus = commit_corpora(view_directory(args.release, 'commits'), set(keys))
+        filtered = commit_corpora(view_directory(args.release, 'commits_filtered'), set(keys))
         if set(corpus) != set(keys):
             raise ValueError(f'{len(set(keys) - set(corpus))} annotated commits are not in the commit view')
-        report['precision'] = {
-            'commits': precision_report(final, corpus, population),
-            'commits_filtered': precision_report({key: final[key] for key in filtered}, filtered, filtered_population),
+        report['pqc_related'] = {
+            'commits': share_report(final, corpus),
+            'commits_filtered': share_report({key: final[key] for key in filtered}, filtered),
         }
     else:
-        report['precision'] = {'commits': proportion(list(final.values()))}
+        report['pqc_related'] = {'commits': proportion(list(final.values()))}
     return report
 
 
@@ -272,7 +245,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--rounds', type=int, default=10000)
     parser.add_argument('--seed', type=int, default=20261103)
-    parser.add_argument('--release', type=Path, help='Release or patch-free view; weights precision by corpus')
+    parser.add_argument('--release', type=Path, help='Release or patch-free view; adds shares per corpus and for the filtered view')
     commands = parser.add_subparsers(dest='command', required=True)
     issues = commands.add_parser('issues', help='Issue workbook with annotators A and B and their adjudication')
     issues.add_argument('workbook', type=Path)

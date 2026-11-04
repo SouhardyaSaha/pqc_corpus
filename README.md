@@ -340,9 +340,11 @@ python3 scripts/annotation_agreement.py issues docs/workbooks/issues_annotations
 Optionally, add `--release` with the full release or the extracted patch-free view
 (for example `--release data/pqc-corpus-reviewer-metadata`) before the subcommand. The
 workbooks do not record corpora, so the script reads from the release each labelled
-record's corpus, how many records each corpus holds, and which labelled commits are in
-the filtered view. It then also reports the share per corpus, weighted by corpus size,
-and, for commits, for the filtered view.
+record's corpus and which labelled commits are in the filtered view. It then also
+reports the share per corpus and, for commits, for the filtered view.
+
+The samples were not drawn at random from the release, so these shares describe the
+labelled records only. They are not estimates for the whole corpus.
 
 ## Tests
 

@@ -21,7 +21,8 @@ scripts/
 ├── analysis/
 │   ├── characterize_coverage.py    Count PQC families and concerns named in PRs and issues
 │   ├── characterize_dataset.py     Repository distributions and filtering effects, from an audit
-│   └── characterize_timeline.py    PRs created per year and recorded GitHub inventories
+│   ├── characterize_timeline.py    PRs created per year and recorded GitHub inventories
+│   └── recovery_outcomes.py        PR commit lists rebuilt beyond GitHub's 250-commit cap
 ├── figures/
 │   ├── make_coverage.py            Bar chart of threads per family or concern
 │   ├── make_activity.py            Quarterly threads per family, with NIST milestones
@@ -60,6 +61,7 @@ There are two ways to get the data:
 | `analysis/characterize_coverage.py` | yes | yes |
 | `analysis/characterize_dataset.py` | yes, plus an audit report | yes, plus an audit report |
 | `analysis/characterize_timeline.py` | yes | yes |
+| `analysis/recovery_outcomes.py` | yes | yes |
 | `figures/make_repositories.py` | yes | yes |
 | `figures/make_coverage.py`, `figures/make_activity.py` | reads `coverage.json` | reads `coverage.json` |
 
@@ -91,6 +93,17 @@ The reader scans records in 64 KiB chunks and hashes patch strings as it decodes
 so memory stays small even though the largest released record is 1.2 GB. It stops
 once every target is found. It relies on the published field order
 (`repo`, `corpus`, then `sha` or `number`).
+
+## Count recovered commit lists
+
+```bash
+python3 scripts/analysis/recovery_outcomes.py --data META --output recovery-outcomes.json
+```
+
+GitHub returns at most 250 commits per PR, so any released PR with more was rebuilt
+from Git objects. The release has 23 such PRs in six repositories. They add 23,075
+PR–commit links beyond the cap, 28.5% of all 81,103 links. No released PR has exactly
+250 commits, the length a list left capped would have.
 
 ## Audit a release
 

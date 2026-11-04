@@ -1,5 +1,26 @@
 # PQC-Corpus
 
+## Contents
+
+- [Overview](#overview)
+- [Repository Layout](#repository-layout)
+- [Commands](#commands)
+- [Setup](#setup)
+  - [Use the existing dataset](#use-the-existing-dataset)
+  - [Use the Hugging Face dataset](#use-the-hugging-face-dataset)
+  - [Use the Zenodo dataset](#use-the-zenodo-dataset)
+  - [Set up the Python CLI](#set-up-the-python-cli)
+  - [Set up data collection](#set-up-data-collection)
+- [Collecting a run](#collecting-a-run)
+- [Reproducing the released dataset](#reproducing-the-released-dataset)
+- [Working with a release](#working-with-a-release)
+- [Relevance labels](#relevance-labels)
+- [Tests](#tests)
+- [Licence](#licence)
+- [Citation](#citation)
+
+## Overview
+
 PQC-Corpus is a dataset of the development history of 179 public GitHub repositories
 about post-quantum cryptography (PQC), collected on 21–24 September 2026. This
 repository holds the code that builds it, its schemas and its documentation; the
@@ -139,6 +160,54 @@ On Linux, `sha256sum -c` can replace `shasum -a 256 -c`. The extracted
 and patch locators. Use the full Hugging Face snapshot linked above for patch
 analysis and reproducing the commit filters.
 
+### Use the Hugging Face dataset
+
+The full release, patches included, loads with the `datasets` library
+(`python -m pip install datasets`). Each file is a config: `commits`,
+`commits_filtered`, `issues`, `issues_filtered`, `pull_requests` and `repositories`.
+Pin the revision the paper describes, and stream the commit configs, which are about
+28 GB and 14 GB:
+
+```python
+from datasets import load_dataset
+
+revision = "4d72fb06f0a9bcbf4d03412557255ea103e3109c"
+issues = load_dataset("pqc-datasets/pqc-corpus", "issues_filtered", split="train", revision=revision)
+commits = load_dataset("pqc-datasets/pqc-corpus", "commits_filtered", split="train",
+                       revision=revision, streaming=True)
+```
+
+Join records on `repo` together with `sha` or `number`, since SHAs and numbers repeat
+across repositories. To download the files themselves (42.82 GB) and check them
+against `SHA256SUMS`, see [scripts/README.md](scripts/README.md#which-data-each-script-reads).
+
+### Use the Zenodo dataset
+
+Zenodo ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)) holds the
+same release as one SQLite database, `pqc_corpus.db` (28.46 GB). Download it and check
+its MD5 (`md5sum` on Linux):
+
+```bash
+curl -L -o pqc_corpus.db "https://zenodo.org/records/23890225/files/pqc_corpus.db?download=1"
+md5 pqc_corpus.db   # d23a44499064422d148b1d503758785f
+```
+
+Open it with any SQLite tool; no import step is needed. For example, from issue 46 of
+`RustCrypto/KEMs` to the commits of the pull request that closed it:
+
+```bash
+sqlite3 "file:pqc_corpus.db?mode=ro" "
+SELECT ci.number, c.sha, c.message
+FROM issues i
+JOIN pull_request_closed_issues ci ON ci.issue_repo = i.repo AND ci.issue_number = i.number
+JOIN pull_request_commits pc ON pc.repo = ci.repo AND pc.number = ci.number
+JOIN commits c ON c.repo = pc.repo AND c.sha = pc.sha
+WHERE i.repo = 'RustCrypto/KEMs' AND i.number = 46;"
+```
+
+[docs/DATABASE.md](docs/DATABASE.md) lists the tables and how they differ from the JSON
+Lines files.
+
 ### Set up the Python CLI
 
 Use **Python 3.11 or later**; check with `python3 --version` before creating the
@@ -163,7 +232,7 @@ python -m pip install -e '.[test]'      # JSON Schema validation in tests
 
 For all three, use `python -m pip install -e '.[collect,figures,test]'`.
 
-### Collect a new run
+### Set up data collection
 
 Install **Git**, **[Deno](https://deno.com) 2**, and the **`flock` command**, add
 them to `PATH`, and install the `collect` dependencies above. macOS requires
@@ -254,6 +323,26 @@ python -m pqc_corpus commits mine --run-dir FROZEN_RUN --no-collect \
     --eligibility provenance/frozen_observations_2026-09-29.jsonl \
     --author-key-secret SECRET --output out/commits
 ```
+
+## Relevance labels
+
+Two annotators labelled 100 commits and 100 issues as PQC-related or not.
+[docs/workbooks/](docs/workbooks) holds their labels and the adjudicated label for each
+disagreement, and [docs/codebooks/](docs/codebooks) the labelling rules.
+`scripts/annotation_agreement.py` (needs `openpyxl`) reports Cohen's kappa and the
+share of PQC-related records:
+
+```bash
+python3 scripts/annotation_agreement.py commits docs/workbooks/commits_annotations_adjudicated.xlsx
+python3 scripts/annotation_agreement.py issues docs/workbooks/issues_annotations_adjudicated.xlsx
+```
+
+Optionally, add `--release` with the full release or the extracted patch-free view
+(for example `--release data/pqc-corpus-reviewer-metadata`) before the subcommand. The
+workbooks do not record corpora, so the script reads from the release each labelled
+record's corpus, how many records each corpus holds, and which labelled commits are in
+the filtered view. It then also reports the share per corpus, weighted by corpus size,
+and, for commits, for the filtered view.
 
 ## Tests
 

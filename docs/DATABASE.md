@@ -6,8 +6,8 @@ full patches, their issues and pull requests with discussions and reviews, and t
 repositories themselves. This record holds release 1.0.0 (29 October 2026) as one
 SQLite database, `pqc_corpus.db` (about 29 GB). The same release is on Hugging Face as
 JSON Lines ([pqc-datasets/pqc-corpus](https://huggingface.co/datasets/pqc-datasets/pqc-corpus)),
-and the code that collects and builds it is on GitHub
-([SouhardyaSaha/pqc_corpus](https://github.com/SouhardyaSaha/pqc_corpus)).
+and the code that collects and builds it is archived on Zenodo
+([10.5281/zenodo.23955548](https://doi.org/10.5281/zenodo.23955548)).
 
 Open it with any SQLite tool (the `sqlite3` shell, DB Browser for SQLite, Python's
 `sqlite3`, DuckDB, ...); no server or import step is needed.

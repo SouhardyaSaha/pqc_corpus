@@ -397,3 +397,16 @@ and the dataset ([10.5281/zenodo.23890224](https://doi.org/10.5281/zenodo.238902
   url       = {https://doi.org/10.5281/zenodo.23890224}
 }
 ```
+
+and the code that builds it ([10.5281/zenodo.23784229](https://doi.org/10.5281/zenodo.23784229)):
+
+```bibtex
+@software{pqc_corpus_code_2026,
+  author    = {Saha Dip, Souhardya and Fakorede, Moshood A. and Farooq, Umar},
+  title     = {{PQC-Corpus: code to mine, filter and release the PQC-Corpus dataset}},
+  year      = {2026},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.23784229},
+  url       = {https://doi.org/10.5281/zenodo.23784229}
+}
+```

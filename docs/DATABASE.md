@@ -174,7 +174,7 @@ remains under those repositories' licences.
   year      = {2026},
   publisher = {Zenodo},
   version   = {1.0.0},
-  doi       = {10.5281/zenodo.23890225},
-  url       = {https://doi.org/10.5281/zenodo.23890225}
+  doi       = {10.5281/zenodo.23890224},
+  url       = {https://doi.org/10.5281/zenodo.23890224}
 }
 ```

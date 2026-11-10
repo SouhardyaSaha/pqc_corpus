@@ -1,7 +1,7 @@
 {
   "title": "PQC-Corpus: code to mine, filter and release the PQC-Corpus dataset",
   "upload_type": "software",
-  "description": "<p>Code that builds PQC-Corpus, a dataset of the development history of 179 public GitHub repositories about post-quantum cryptography (PQC), collected on 21–24 September 2026. It mines commits with full patches, issues and pull requests with their discussions and reviews, and repository metadata; filters the commits (114,361 to 47,729) and issues (5,713 to 5,687) with fixed, scripted rules; writes a checksummed release with Table I and Figures 3–5; and builds the SQLite edition of a release, checking that it reproduces every data file byte for byte.</p><p>The dataset itself: SQLite edition on Zenodo, <a href=\"https://doi.org/10.5281/zenodo.23890225\">10.5281/zenodo.23890225</a>; JSON Lines on Hugging Face, <a href=\"https://huggingface.co/datasets/pqc-datasets/pqc-corpus\">pqc-datasets/pqc-corpus</a> (CC BY 4.0).</p><p>Paper: <a href=\"https://doi.org/10.48550/arXiv.2611.10966\">10.48550/arXiv.2611.10966</a>.</p>",
+  "description": "<p>Code that builds PQC-Corpus, a dataset of the development history of 179 public GitHub repositories about post-quantum cryptography (PQC), collected on 21–24 September 2026. It mines commits with full patches, issues and pull requests with their discussions and reviews, and repository metadata; filters the commits (114,361 to 47,729) and issues (5,713 to 5,687) with fixed, scripted rules; writes a checksummed release with Table I and Figures 3–5; and builds the SQLite edition of a release, checking that it reproduces every data file byte for byte.</p><p>The dataset itself: SQLite edition on Zenodo, <a href=\"https://doi.org/10.5281/zenodo.23890224\">10.5281/zenodo.23890224</a>; JSON Lines on Hugging Face, <a href=\"https://huggingface.co/datasets/pqc-datasets/pqc-corpus\">pqc-datasets/pqc-corpus</a> (CC BY 4.0).</p><p>Paper: <a href=\"https://doi.org/10.48550/arXiv.2611.10966\">10.48550/arXiv.2611.10966</a>.</p>",
   "creators": [
     {"name": "Saha Dip, Souhardya", "affiliation": "Louisiana State University"},
     {"name": "Fakorede, Moshood A.", "affiliation": "Louisiana State University"},
@@ -13,7 +13,7 @@
   "keywords": ["post-quantum cryptography", "mining software repositories", "dataset", "GitHub", "git"],
   "related_identifiers": [
     {
-      "identifier": "10.5281/zenodo.23890225",
+      "identifier": "10.5281/zenodo.23890224",
       "relation": "isSupplementTo",
       "resource_type": "dataset",
       "scheme": "doi"

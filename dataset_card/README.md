@@ -33,7 +33,7 @@ PQC-Corpus is the development history of 179 public GitHub repositories about
 post-quantum cryptography (PQC): their commits with full patches, their issues and
 pull requests with discussions and reviews, and the repositories themselves. It
 was collected on 21–24 September 2026. The same release is archived on Zenodo
-([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)), and so is the
+([10.5281/zenodo.23890224](https://doi.org/10.5281/zenodo.23890224)), and so is the
 code that collects and builds it
 ([10.5281/zenodo.23784229](https://doi.org/10.5281/zenodo.23784229)). The paper that
 describes it is on arXiv ([arXiv:2611.10966](https://arxiv.org/abs/2611.10966)).
@@ -138,7 +138,7 @@ If you use PQC-Corpus, please cite the paper
 }
 ```
 
-and the dataset ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)):
+and the dataset ([10.5281/zenodo.23890224](https://doi.org/10.5281/zenodo.23890224)):
 
 ```bibtex
 @dataset{pqc_corpus_2026,
@@ -147,7 +147,7 @@ and the dataset ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.238902
   year      = {2026},
   publisher = {Zenodo},
   version   = {1.0.0},
-  doi       = {10.5281/zenodo.23890225},
-  url       = {https://doi.org/10.5281/zenodo.23890225}
+  doi       = {10.5281/zenodo.23890224},
+  url       = {https://doi.org/10.5281/zenodo.23890224}
 }
 ```

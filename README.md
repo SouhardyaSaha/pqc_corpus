@@ -25,7 +25,7 @@ PQC-Corpus is a dataset of the development history of 179 public GitHub reposito
 about post-quantum cryptography (PQC), collected on 21–24 September 2026. This
 repository holds the code that builds it, its schemas and its documentation; the
 dataset card is [dataset_card/README.md](dataset_card/README.md). The dataset itself is
-on Zenodo ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)) and
+on Zenodo ([10.5281/zenodo.23890224](https://doi.org/10.5281/zenodo.23890224)) and
 Hugging Face ([pqc-datasets/pqc-corpus](https://huggingface.co/datasets/pqc-datasets/pqc-corpus)),
 and the paper that describes it is on arXiv
 ([10.48550/arXiv.2611.10966](https://doi.org/10.48550/arXiv.2611.10966)).
@@ -185,7 +185,7 @@ against `SHA256SUMS`, see [scripts/README.md](scripts/README.md#which-data-each-
 
 ### Use the Zenodo dataset
 
-Zenodo ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)) holds the
+Zenodo ([10.5281/zenodo.23890224](https://doi.org/10.5281/zenodo.23890224)) holds the
 same release as one SQLite database, `pqc_corpus.db` (28.46 GB). Download it and check
 its MD5 (`md5sum` on Linux):
 
@@ -384,7 +384,7 @@ If you use PQC-Corpus, please cite the paper
 }
 ```
 
-and the dataset ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)):
+and the dataset ([10.5281/zenodo.23890224](https://doi.org/10.5281/zenodo.23890224)):
 
 ```bibtex
 @dataset{pqc_corpus_2026,
@@ -393,7 +393,7 @@ and the dataset ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.238902
   year      = {2026},
   publisher = {Zenodo},
   version   = {1.0.0},
-  doi       = {10.5281/zenodo.23890225},
-  url       = {https://doi.org/10.5281/zenodo.23890225}
+  doi       = {10.5281/zenodo.23890224},
+  url       = {https://doi.org/10.5281/zenodo.23890224}
 }
 ```

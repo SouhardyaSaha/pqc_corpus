@@ -122,22 +122,8 @@ repositories and remains under those repositories' licences; see `LICENSE`.
 
 ## Citation
 
-If you use PQC-Corpus, please cite the dataset
-([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)):
-
-```bibtex
-@dataset{pqc_corpus_2026,
-  author    = {Saha Dip, Souhardya and Fakorede, Moshood A. and Farooq, Umar},
-  title     = {{PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography}},
-  year      = {2026},
-  publisher = {Zenodo},
-  version   = {1.0.0},
-  doi       = {10.5281/zenodo.23890225},
-  url       = {https://doi.org/10.5281/zenodo.23890225}
-}
-```
-
-and the paper ([10.48550/arXiv.2611.10966](https://doi.org/10.48550/arXiv.2611.10966)):
+If you use PQC-Corpus, please cite the paper
+([10.48550/arXiv.2611.10966](https://doi.org/10.48550/arXiv.2611.10966)):
 
 ```bibtex
 @misc{pqc_corpus_paper_2026,
@@ -149,5 +135,19 @@ and the paper ([10.48550/arXiv.2611.10966](https://doi.org/10.48550/arXiv.2611.1
   primaryClass  = {cs.CR},
   doi           = {10.48550/arXiv.2611.10966},
   url           = {https://doi.org/10.48550/arXiv.2611.10966}
+}
+```
+
+and the dataset ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)):
+
+```bibtex
+@dataset{pqc_corpus_2026,
+  author    = {Saha Dip, Souhardya and Fakorede, Moshood A. and Farooq, Umar},
+  title     = {{PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography}},
+  year      = {2026},
+  publisher = {Zenodo},
+  version   = {1.0.0},
+  doi       = {10.5281/zenodo.23890225},
+  url       = {https://doi.org/10.5281/zenodo.23890225}
 }
 ```

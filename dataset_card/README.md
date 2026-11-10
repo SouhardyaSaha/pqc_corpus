@@ -35,7 +35,7 @@ pull requests with discussions and reviews, and the repositories themselves. It
 was collected on 21–24 September 2026. The same release is archived on Zenodo
 ([10.5281/zenodo.23890225](https://doi.org/10.5281/zenodo.23890225)), and so is the
 code that collects and builds it
-([10.5281/zenodo.23955548](https://doi.org/10.5281/zenodo.23955548)). The paper that
+([10.5281/zenodo.23784229](https://doi.org/10.5281/zenodo.23784229)). The paper that
 describes it is on arXiv ([arXiv:2611.10966](https://arxiv.org/abs/2611.10966)).
 
 | File | One line is | Rows | Size |

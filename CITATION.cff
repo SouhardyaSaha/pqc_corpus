@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "If you use PQC-Corpus, please cite the dataset as below."
+message: "If you use PQC-Corpus, please cite the paper as below."
 type: software
 title: "PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography"
 abstract: >-
@@ -31,7 +31,7 @@ keywords:
   - GitHub
   - git
 preferred-citation:
-  type: data
+  type: generic
   title: "PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography"
   authors:
     - given-names: Souhardya
@@ -43,26 +43,32 @@ preferred-citation:
     - given-names: Umar
       family-names: Farooq
       affiliation: Louisiana State University
-  version: 1.0.0
   year: 2026
   publisher:
-    name: Zenodo
-  doi: 10.5281/zenodo.23890225
-  url: "https://doi.org/10.5281/zenodo.23890225"
-  license: CC-BY-4.0
+    name: arXiv
+  identifiers:
+    - type: other
+      value: "arXiv:2611.10966"
+      description: arXiv identifier
+  doi: 10.48550/arXiv.2611.10966
+  url: "https://doi.org/10.48550/arXiv.2611.10966"
 references:
-  - type: article
+  - type: data
     title: "PQC-Corpus: A Dataset of Linked Development Histories for Post-Quantum Cryptography"
     authors:
       - given-names: Souhardya
         family-names: Saha Dip
+        affiliation: Louisiana State University
       - given-names: Moshood A.
         family-names: Fakorede
+        affiliation: Louisiana State University
       - given-names: Umar
         family-names: Farooq
+        affiliation: Louisiana State University
+    version: 1.0.0
     year: 2026
-    identifiers:
-      - type: other
-        value: "arXiv:2611.10966"
-    doi: 10.48550/arXiv.2611.10966
-    url: "https://doi.org/10.48550/arXiv.2611.10966"
+    publisher:
+      name: Zenodo
+    doi: 10.5281/zenodo.23890225
+    url: "https://doi.org/10.5281/zenodo.23890225"
+    license: CC-BY-4.0
